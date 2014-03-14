@@ -1,0 +1,155 @@
+{
+  "apiVersion": "1.0.1",
+  "swaggerVersion": "1.2",
+  "basePath": "/api/latest",
+  "resourcePath": "/pets/{petId}",
+  "description": "Operations about pets",
+  "apis": [
+    {
+      "path": "/pets",
+      "description": "Operations about pets",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "List all pets",
+          "notes": "List all pets. Results are paginated.",
+          "type": "PetListing",
+          "nickname": "list",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "start",
+              "defaultValue": "0",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "count",
+              "defaultValue": "50",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "summary": "Creates a new pet",
+          "notes": "Creates a new pet with the given name.",
+          "type": "PetHandle",
+          "nickname": "createPet",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "body",
+              "required": true,
+              "allowMultiple": false,
+              "type": "NewPet",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/pets/{id}",
+      "description": "Operations about pets",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Delete pet by id",
+          "notes": "Deletes a pet by it's id.",
+          "type": "void",
+          "nickname": "deletePet",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int64",
+              "paramType": "path"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 404,
+              "message": "Pet not found"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "summary": "Retrieve pet by id",
+          "notes": "Retrieves a pet by it's id.",
+          "type": "Pet",
+          "nickname": "retrievePet",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int64",
+              "paramType": "path"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 404,
+              "message": "Pet not found"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "summary": "Updates a pet",
+          "notes": "Updates an existing pet with the provided details.",
+          "type": "void",
+          "nickname": "updatePet",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "body",
+              "required": true,
+              "allowMultiple": false,
+              "type": "Pet",
+              "paramType": "body"
+            },
+            {
+              "name": "id",
+              "required": true,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int64",
+              "paramType": "path"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 404,
+              "message": "Pet not found"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
