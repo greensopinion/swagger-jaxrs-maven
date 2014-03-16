@@ -132,10 +132,10 @@ I recommend having your web application serve up the Swagger documentation; that
 The following addition to your web.xml will cause the generated documentation to be served as expected:
 
 pre. 
-	<welcome-file-list>
-  	<!-- other welcome files go here --> 
-  	<welcome-file>index.json</welcome-file>
-	</welcome-file-list>
+<welcome-file-list>
+    <!-- other welcome files go here --> 
+    <welcome-file>index.json</welcome-file>
+</welcome-file-list>
 
 h2. Example JAX-RS Service
 
