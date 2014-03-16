@@ -11,6 +11,10 @@ package greensopinion.swagger.jaxrsgen.model;
 import static com.google.common.base.Preconditions.checkState;
 
 import java.util.List;
+import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 
 // https://github.com/wordnik/swagger-core/wiki/Api-Declaration
 public class ServiceApi implements Comparable<ServiceApi> {
@@ -37,6 +41,14 @@ public class ServiceApi implements Comparable<ServiceApi> {
 
 	public String getDescription() {
 		return description;
+	}
+
+	public Set<Class<?>> getModelClasses() {
+		Set<Class<?>> modelClasses = Sets.newHashSet();
+		for (ServiceOperation operation : getOperations()) {
+			modelClasses.addAll(operation.getModelClasses());
+		}
+		return ImmutableSet.copyOf(modelClasses);
 	}
 
 	@Override

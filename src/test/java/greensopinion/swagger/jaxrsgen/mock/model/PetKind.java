@@ -8,21 +8,6 @@
 
 package greensopinion.swagger.jaxrsgen.mock.model;
 
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
-public class PetHandle {
-
-	@ApiModelProperty(required = true)
-	private long id;
-
-	@ApiModelProperty(value = "The name of the pet", required = false)
-	private String name;
-
-	public long getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
+public enum PetKind {
+	DOG, CAT, REPTILE, FISH, HORSE, OTHER
 }

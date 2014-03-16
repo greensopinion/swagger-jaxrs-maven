@@ -6,23 +6,10 @@
  * http://tasktop.com/legal
  *******************************************************************************/
 
-package greensopinion.swagger.jaxrsgen.mock.model;
+package greensopinion.swagger.jaxrsgen.model;
 
-import com.wordnik.swagger.annotations.ApiModelProperty;
+public abstract class JsonIntrospector {
 
-public class PetHandle {
+	public abstract ApiModel createApiModel(Class<?> modelClass);
 
-	@ApiModelProperty(required = true)
-	private long id;
-
-	@ApiModelProperty(value = "The name of the pet", required = false)
-	private String name;
-
-	public long getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
 }

@@ -3,9 +3,12 @@ package greensopinion.swagger.jaxrsgen.model;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 public class ApiRoot {
 
@@ -41,6 +44,14 @@ public class ApiRoot {
 
 	public String getSwaggerVersion() {
 		return swaggerVersion;
+	}
+
+	public Set<Class<?>> getModelClasses() {
+		Set<Class<?>> modelClasses = Sets.newHashSet();
+		for (Service service : getServices()) {
+			modelClasses.addAll(service.getModelClasses());
+		}
+		return ImmutableSet.copyOf(modelClasses);
 	}
 
 	public static ApiBuilder builder() {

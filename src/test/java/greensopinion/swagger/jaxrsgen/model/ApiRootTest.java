@@ -23,7 +23,7 @@ public class ApiRootTest {
 	@Test
 	public void serializedForm() {
 		List<Service> services = ImmutableList.of(new Service("1.0.1", "/api/latest", "/pets", "Pet service",
-				Collections.<ServiceApi> emptyList()));
+				Collections.<ServiceApi> emptyList(), Collections.<ApiModel> emptyList()));
 		ApiRoot root = new ApiRoot("1.0.0", services);
 
 		String json = new GsonBuilder().disableHtmlEscaping().create().toJson(root);

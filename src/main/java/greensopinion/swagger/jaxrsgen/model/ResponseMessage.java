@@ -8,18 +8,24 @@
 
 package greensopinion.swagger.jaxrsgen.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ResponseMessage {
 
 	private final int code;
 
 	private final String message;
 
+	@SerializedName("responseModel")
 	private final String response;
 
-	ResponseMessage(int code, String message, String response) {
+	private transient final Class<?> typeClass;
+
+	ResponseMessage(int code, String message, String response, Class<?> typeClass) {
 		this.code = code;
 		this.message = message;
 		this.response = response;
+		this.typeClass = typeClass;
 	}
 
 	public int getCode() {
@@ -34,4 +40,7 @@ public class ResponseMessage {
 		return response;
 	}
 
+	public Class<?> getTypeClass() {
+		return typeClass;
+	}
 }

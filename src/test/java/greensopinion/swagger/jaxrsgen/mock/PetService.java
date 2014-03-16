@@ -8,10 +8,11 @@
 
 package greensopinion.swagger.jaxrsgen.mock;
 
-import greensopinion.swagger.jaxrsgen.mock.model.NewPet;
 import greensopinion.swagger.jaxrsgen.mock.model.Pet;
 import greensopinion.swagger.jaxrsgen.mock.model.PetHandle;
 import greensopinion.swagger.jaxrsgen.mock.model.PetListing;
+import greensopinion.swagger.jaxrsgen.mock.model.PetValues;
+import greensopinion.swagger.jaxrsgen.mock.model.ServerError;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -29,10 +30,10 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
-@Path("/pets")
-@Api(value = "/pets", description = "Operations about pets")
+@Path("/pet")
+@Api(value = "/pet", description = "Operations about pets")
 @Produces(MediaType.APPLICATION_JSON)
-public class TestServiceClass {
+public class PetService {
 
 	@GET
 	@ApiOperation(value = "List all pets", notes = "List all pets. Results are paginated.", response = PetListing.class)
@@ -44,7 +45,7 @@ public class TestServiceClass {
 	@GET
 	@Path("/{id}")
 	@ApiOperation(value = "Retrieve pet by id", notes = "Retrieves a pet by it's id.", response = Pet.class)
-	@ApiResponses(value = { @ApiResponse(code = 404, message = "Pet not found") })
+	@ApiResponses(value = { @ApiResponse(code = 404, message = "Pet not found", response = ServerError.class) })
 	public Pet retrievePet(@PathParam("id") long id) {
 		return null;
 	}
@@ -52,13 +53,13 @@ public class TestServiceClass {
 	@DELETE
 	@Path("/{id}")
 	@ApiOperation(value = "Delete pet by id", notes = "Deletes a pet by it's id.")
-	@ApiResponses(value = { @ApiResponse(code = 404, message = "Pet not found") })
+	@ApiResponses(value = { @ApiResponse(code = 404, message = "Pet not found", response = ServerError.class) })
 	public void deletePet(@PathParam("id") long id) {
 	}
 
 	@PUT
 	@ApiOperation(value = "Creates a new pet", notes = "Creates a new pet with the given name.", response = PetHandle.class)
-	public PetHandle createPet(NewPet newPet) {
+	public PetHandle createPet(PetValues petValues) {
 		return null;
 	}
 
@@ -66,7 +67,7 @@ public class TestServiceClass {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Updates a pet", notes = "Updates an existing pet with the provided details.")
-	@ApiResponses(value = { @ApiResponse(code = 404, message = "Pet not found") })
+	@ApiResponses(value = { @ApiResponse(code = 404, message = "Pet not found", response = ServerError.class) })
 	public void updatePet(Pet pet, @PathParam("id") long id) {
 	}
 }

@@ -8,7 +8,14 @@
 
 package greensopinion.swagger.jaxrsgen.mock.model;
 
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
-public class Pet {
+public class Pet extends PetValues {
 
+	@ApiModelProperty(required = true)
+	private long id;
+
+	public long getId() {
+		return id;
+	}
 }

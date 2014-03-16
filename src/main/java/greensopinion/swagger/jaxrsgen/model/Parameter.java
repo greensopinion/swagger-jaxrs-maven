@@ -28,13 +28,16 @@ public class Parameter {
 
 	private final String allowableValues;
 
-	Parameter(String name, String defaultValue, boolean required, boolean allowMultiple, String type, String format,
-			String paramType, String allowableValues, String description) {
+	private transient final Class<?> typeClass;
+
+	Parameter(String name, String defaultValue, boolean required, boolean allowMultiple, String type,
+			Class<?> typeClass, String format, String paramType, String allowableValues, String description) {
 		this.name = name;
 		this.defaultValue = defaultValue;
 		this.required = required;
 		this.allowMultiple = allowMultiple;
 		this.type = type;
+		this.typeClass = typeClass;
 		this.format = format;
 		this.paramType = paramType;
 		this.allowableValues = allowableValues;
@@ -75,6 +78,10 @@ public class Parameter {
 
 	public String getAllowableValues() {
 		return allowableValues;
+	}
+
+	public Class<?> getTypeClass() {
+		return typeClass;
 	}
 
 }

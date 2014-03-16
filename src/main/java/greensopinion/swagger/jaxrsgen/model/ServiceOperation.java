@@ -12,9 +12,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.gson.annotations.SerializedName;
 
 public class ServiceOperation implements Comparable<ServiceOperation> {
@@ -38,12 +41,16 @@ public class ServiceOperation implements Comparable<ServiceOperation> {
 
 	private final List<ResponseMessage> responseMessages;
 
+	private transient final Class<?> returnType;
+
 	ServiceOperation(String path, String httpMethod, String nickname, String summary, List<String> produces,
-			String notes, String type, List<Parameter> parameters, List<ResponseMessage> responseMessages) {
+			String notes, String type, Class<?> returnType, List<Parameter> parameters,
+			List<ResponseMessage> responseMessages) {
 		this.path = checkNotNull(path, "Must provide a path");
 		this.httpMethod = checkNotNull(httpMethod, "Must provide an httpMethod");
 		this.nickname = checkNotNull(nickname, "Must provide nickname");
 		this.type = type;
+		this.returnType = returnType;
 		this.summary = summary;
 		this.produces = produces == null ? null : ImmutableList.copyOf(produces);
 		this.notes = notes;
@@ -85,6 +92,24 @@ public class ServiceOperation implements Comparable<ServiceOperation> {
 
 	public List<ResponseMessage> getResponseMessages() {
 		return responseMessages == null ? Collections.<ResponseMessage> emptyList() : responseMessages;
+	}
+
+	public Set<Class<?>> getModelClasses() {
+		Set<Class<?>> modelClasses = Sets.newHashSet();
+		if (returnType != null && ApiTypes.isModelClass(returnType)) {
+			modelClasses.add(returnType);
+		}
+		for (Parameter parameter : getParameters()) {
+			if (parameter.getTypeClass() != null && ApiTypes.isModelClass(parameter.getTypeClass())) {
+				modelClasses.add(parameter.getTypeClass());
+			}
+		}
+		for (ResponseMessage responseMessage : getResponseMessages()) {
+			if (responseMessage.getTypeClass() != null && ApiTypes.isModelClass(responseMessage.getTypeClass())) {
+				modelClasses.add(responseMessage.getTypeClass());
+			}
+		}
+		return ImmutableSet.copyOf(modelClasses);
 	}
 
 	public static ServiceOperationBuilder builder() {

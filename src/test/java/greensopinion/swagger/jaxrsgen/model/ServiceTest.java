@@ -10,7 +10,7 @@ package greensopinion.swagger.jaxrsgen.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import greensopinion.swagger.jaxrsgen.mock.TestServiceClass;
+import greensopinion.swagger.jaxrsgen.mock.PetService;
 
 import org.junit.Test;
 
@@ -25,7 +25,7 @@ public class ServiceTest {
 				.path("/pets/{petId}")
 				.description("Operations about pets")
 				.version("1.0.1")
-				.methods(TestServiceClass.class)
+				.methods(PetService.class)
 				.create();
 		assertNotNull(service);
 

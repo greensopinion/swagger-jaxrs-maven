@@ -9,7 +9,7 @@
 package greensopinion.swagger.jaxrsgen.model;
 
 import static org.junit.Assert.assertEquals;
-import greensopinion.swagger.jaxrsgen.mock.TestServiceClass;
+import greensopinion.swagger.jaxrsgen.mock.PetService;
 
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ public class ServiceBuilderTest {
 				.basePath("/one/two")
 				.description("desc")
 				.version("1.2.3")
-				.methods(TestServiceClass.class)
+				.methods(PetService.class)
 				.create();
 		assertEquals("1.2.3", service.getApiVersion());
 		assertEquals("/test", service.getPath());

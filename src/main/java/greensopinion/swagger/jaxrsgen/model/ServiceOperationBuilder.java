@@ -54,6 +54,8 @@ public class ServiceOperationBuilder {
 
 	private String type;
 
+	private Class<?> typeClass;
+
 	private List<ResponseMessage> responseMessages;
 
 	ServiceOperationBuilder() {
@@ -67,7 +69,8 @@ public class ServiceOperationBuilder {
 				.summary(apiOperation.value())
 				.notes(apiOperation.notes())
 				.produces(calculateProduces(method))
-				.type(calculateTypeName(method.getReturnType()));
+				.type(ApiTypes.calculateTypeName(method.getReturnType()));
+		typeClass = method.getReturnType();
 
 		Class<?>[] parameterTypes = method.getParameterTypes();
 		Annotation[][] parameterAnnotations = method.getParameterAnnotations();
@@ -76,14 +79,15 @@ public class ServiceOperationBuilder {
 		}
 
 		if (apiOperation.response() != Void.class) {
-			type(calculateTypeName(apiOperation.response()));
+			type(ApiTypes.calculateTypeName(apiOperation.response()));
 		}
 		ApiResponses apiResponses = method.getAnnotation(ApiResponses.class);
 		if (apiResponses != null && apiResponses.value().length > 0) {
 			responseMessages = Lists.newArrayList();
 			for (ApiResponse response : apiResponses.value()) {
 				responseMessages.add(new ResponseMessage(response.code(), response.message(),
-						response.response() == Void.class ? null : calculateTypeName(response.response())));
+						response.response() == Void.class ? null : ApiTypes.calculateTypeName(response.response()),
+						response.response()));
 			}
 		}
 
@@ -100,8 +104,8 @@ public class ServiceOperationBuilder {
 		String defaultValue = defaultValueAnnotation == null ? null : defaultValueAnnotation.value();
 		boolean required = defaultValue == null;
 		boolean allowMultiple = false;
-		String type = calculateTypeName(parameterType);
-		String format = calculateTypeFormat(parameterType);
+		String type = ApiTypes.calculateTypeName(parameterType);
+		String format = ApiTypes.calculateTypeFormat(parameterType);
 		String description = null;
 		String allowableValues = null;
 
@@ -129,8 +133,8 @@ public class ServiceOperationBuilder {
 				allowMultiple = apiParam.allowMultiple();
 			}
 		}
-		parameter(new Parameter(name, defaultValue, required, allowMultiple, type, format, paramType, allowableValues,
-				description));
+		parameter(new Parameter(name, defaultValue, required, allowMultiple, type, parameterType, format, paramType,
+				allowableValues, description));
 	}
 
 	private void parameter(Parameter parameter) {
@@ -145,25 +149,6 @@ public class ServiceOperationBuilder {
 			return value1;
 		}
 		return value2;
-	}
-
-	private String calculateTypeFormat(Class<?> parameterType) {
-		if (parameterType == Long.class || parameterType == long.class) {
-			return "int64";
-		} else if (parameterType == Integer.class || parameterType == int.class) {
-			return "int32";
-		}
-		return null;
-	}
-
-	private String calculateTypeName(Class<?> parameterType) {
-		if (parameterType == Long.class || parameterType == long.class || parameterType == Integer.class
-				|| parameterType == int.class) {
-			return "integer";
-		} else if (parameterType.isPrimitive() || parameterType.getPackage().getName().equals("java.lang")) {
-			return parameterType.getSimpleName().toLowerCase();
-		}
-		return parameterType.getSimpleName();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -212,7 +197,7 @@ public class ServiceOperationBuilder {
 	}
 
 	public ServiceOperation create() {
-		return new ServiceOperation(path, httpMethod, nickname, summary, produces, notes, type, parameters,
+		return new ServiceOperation(path, httpMethod, nickname, summary, produces, notes, type, typeClass, parameters,
 				responseMessages);
 	}
 
