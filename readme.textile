@@ -103,6 +103,40 @@ pre. [INFO] Scanning for projects...
 [INFO] Final Memory: 19M/310M
 [INFO] ------------------------------------------------------------------------
 
+h2. Generated file layout
+
+Generated documentation is created in files in a nested folder structure that mimics the layout of your services.  For example, if you have two REST services as follows:
+
+bc. @Path("/pet")
+public class PetService { ... }
+
+bc. @Path("/owner")
+public class OwnerService { ... }
+
+The generated documentation would be created as follows:
+
+pre. 
+<outputFolder>
+  +- index.json     <-- the Swagger resource listing
+  +- pet
+  |  +- index.json  <-- the pet Swagger API declaration 
+  +- owner
+     +- index.json  <-- the owner Swagger API declaration
+
+This layout combined with the "Web Application":#WebApplication configuration below will enable "Swagger UI":https://helloreverb.com/developers/swagger to interact with the services.
+
+h2. Web Application
+
+I recommend having your web application serve up the Swagger documentation; that way your documentation is always up to date and available for those using its REST services.
+
+The following addition to your web.xml will cause the generated documentation to be served as expected:
+
+pre. 
+	<welcome-file-list>
+  	<!-- other welcome files go here --> 
+  	<welcome-file>index.json</welcome-file>
+	</welcome-file-list>
+
 h2. Example JAX-RS Service
 
 This Maven plug-in expects your JAX-RS service to look something like this: 

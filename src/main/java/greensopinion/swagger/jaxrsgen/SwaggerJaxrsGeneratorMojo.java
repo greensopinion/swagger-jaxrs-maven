@@ -109,10 +109,11 @@ public class SwaggerJaxrsGeneratorMojo extends AbstractMojo {
 	}
 
 	private void output(ApiRoot apiRoot) throws MojoExecutionException {
-		File file = new File(outputFolder, "api-docs.json");
+		File file = new File(outputFolder, "api-docs/index.json");
 		output(file, apiRoot);
 		for (Service service : apiRoot.getServices()) {
-			File serviceFile = new File(outputFolder, CharMatcher.is('/').trimFrom(service.getPath()) + ".json");
+			File serviceFile = new File(file.getParentFile(), CharMatcher.is('/').trimFrom(service.getPath())
+					+ "/index.json");
 			output(serviceFile, service);
 		}
 	}
