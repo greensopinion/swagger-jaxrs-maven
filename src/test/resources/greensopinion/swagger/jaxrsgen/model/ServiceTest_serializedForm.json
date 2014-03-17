@@ -168,6 +168,13 @@
           "type": "integer",
           "format": "int64"
         },
+        "url": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
         "name": {
           "type": "string",
           "description": "The name of the pet"

@@ -8,6 +8,9 @@
 
 package greensopinion.swagger.jaxrsgen.mock.model;
 
+import java.net.URI;
+import java.util.Date;
+
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
 public class Pet extends PetValues {
@@ -15,7 +18,20 @@ public class Pet extends PetValues {
 	@ApiModelProperty(required = true)
 	private long id;
 
+	private URI url;
+
+	private Date created;
+
 	public long getId() {
 		return id;
 	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public URI getUrl() {
+		return url;
+	}
+
 }

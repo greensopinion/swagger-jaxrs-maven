@@ -8,12 +8,53 @@
 
 package greensopinion.swagger.jaxrsgen.model;
 
-import java.awt.List;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Set;
+import java.net.URI;
+import java.util.Date;
+import java.util.Map;
+
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 
 public class ApiTypes {
+
+	private static final Map<Class<?>, String> typeNameByClass;
+	static {
+		Map<Class<?>, String> types = Maps.newHashMap();
+		types.put(Void.class, "void");
+		types.put(void.class, "void");
+		types.put(Long.class, "integer");
+		types.put(long.class, "integer");
+		types.put(Integer.class, "integer");
+		types.put(int.class, "integer");
+		types.put(Float.class, "number");
+		types.put(float.class, "number");
+		types.put(Double.class, "number");
+		types.put(double.class, "number");
+		types.put(Byte.class, "string");
+		types.put(byte.class, "string");
+		types.put(URI.class, "string");
+		types.put(Date.class, "string");
+		typeNameByClass = ImmutableMap.copyOf(types);
+	}
+
+	private static final Map<Class<?>, String> typeFormatByClass;
+	static {
+		Map<Class<?>, String> types = Maps.newHashMap();
+		types.put(Long.class, "int64");
+		types.put(long.class, "int64");
+		types.put(Integer.class, "int32");
+		types.put(int.class, "int32");
+		types.put(Float.class, "float");
+		types.put(float.class, "float");
+		types.put(Double.class, "double");
+		types.put(double.class, "double");
+		types.put(Byte.class, "byte");
+		types.put(byte.class, "byte");
+		types.put(Date.class, "date-time");
+		typeFormatByClass = ImmutableMap.copyOf(types);
+	}
 
 	public static boolean isModelClass(Class<?> clazz) {
 		return !clazz.isPrimitive() && !clazz.getPackage().getName().startsWith("java.")
@@ -21,19 +62,12 @@ public class ApiTypes {
 	}
 
 	public static String calculateTypeName(Class<?> parameterType) {
-		if (parameterType == Long.class || parameterType == long.class || parameterType == Integer.class
-				|| parameterType == int.class) {
-			return "integer";
-		} else if (parameterType == Float.class || parameterType == float.class || parameterType == Double.class
-				|| parameterType == double.class) {
-			return "number";
-		} else if (parameterType == Byte.class || parameterType == byte.class) {
+		String typeName = typeNameByClass.get(parameterType);
+		if (typeName != null) {
+			return typeName;
+		}
+		if (parameterType.isPrimitive() || parameterType.getPackage().getName().equals("java.lang")) {
 			return "string";
-		} else if (List.class.isAssignableFrom(parameterType) || Set.class.isAssignableFrom(parameterType)
-				|| parameterType.isArray()) {
-			return "array";
-		} else if (parameterType.isPrimitive() || parameterType.getPackage().getName().equals("java.lang")) {
-			return parameterType.getSimpleName().toLowerCase();
 		}
 		return parameterType.getSimpleName();
 	}
@@ -51,18 +85,7 @@ public class ApiTypes {
 	}
 
 	public static String calculateTypeFormat(Class<?> parameterType) {
-		if (parameterType == Long.class || parameterType == long.class) {
-			return "int64";
-		} else if (parameterType == Integer.class || parameterType == int.class) {
-			return "int32";
-		} else if (parameterType == Float.class || parameterType == float.class) {
-			return "float";
-		} else if (parameterType == Double.class || parameterType == double.class) {
-			return "double";
-		} else if (parameterType == Byte.class || parameterType == byte.class) {
-			return "byte";
-		}
-		return null;
+		return typeFormatByClass.get(parameterType);
 	}
 
 }
