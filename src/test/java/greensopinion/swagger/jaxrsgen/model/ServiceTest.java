@@ -32,4 +32,5 @@ public class ServiceTest {
 		String json = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create().toJson(service);
 		assertEquals(TestResources.read(ServiceTest.class, "serializedForm.json"), json);
 	}
+
 }

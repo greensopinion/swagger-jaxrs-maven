@@ -1,9 +1,10 @@
 package greensopinion.swagger.jaxrsgen.model;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.List;
+
+import javax.ws.rs.Path;
 
 import com.google.common.collect.Lists;
 import com.wordnik.swagger.annotations.Api;
@@ -18,13 +19,19 @@ public class ApiBuilder {
 
 	public ApiBuilder service(Class<?> clazz) {
 		checkNotNull(clazz, "Must provide a service class");
-		Api api = clazz.getAnnotation(Api.class);
-		checkArgument(api != null, "Service class must be annotated as @Api");
-
-		api = checkNotNull(api);
 
 		ServiceBuilder builder = Service.builder();
-		builder.path(api.value()).description(api.description()).methods(clazz);
+
+		Path path = clazz.getAnnotation(Path.class);
+		if (path != null) {
+			builder.path(path.value());
+		}
+		Api api = clazz.getAnnotation(Api.class);
+		if (api != null) {
+			builder.path(api.value()).description(api.description());
+		}
+
+		builder.methods(clazz);
 
 		serviceBuilders.add(builder);
 

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -122,7 +123,8 @@ public class ServiceOperation implements Comparable<ServiceOperation> {
 	}
 
 	private String compareString() {
-		return Joiner.on(";;").join(httpMethod, path, nickname, summary);
+		return Joiner.on(";;").join(httpMethod, path, Objects.firstNonNull(nickname, ""),
+				Objects.firstNonNull(summary, ""));
 	}
 
 }

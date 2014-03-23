@@ -1,0 +1,220 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "/api/lastest",
+  "resourcePath": "/pet",
+  "apis": [
+    {
+      "path": "/pet",
+      "operations": [
+        {
+          "method": "GET",
+          "type": "PetListing",
+          "nickname": "list",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "start",
+              "defaultValue": "0",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "count",
+              "defaultValue": "50",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "type": "PetHandle",
+          "nickname": "createPet",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "body",
+              "required": true,
+              "allowMultiple": false,
+              "type": "PetValues",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/pet/{id}",
+      "operations": [
+        {
+          "method": "DELETE",
+          "type": "void",
+          "nickname": "deletePet",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int64",
+              "paramType": "path"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "type": "Pet",
+          "nickname": "retrievePet",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int64",
+              "paramType": "path"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "type": "void",
+          "nickname": "updatePet",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "body",
+              "required": true,
+              "allowMultiple": false,
+              "type": "Pet",
+              "paramType": "body"
+            },
+            {
+              "name": "id",
+              "required": true,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int64",
+              "paramType": "path"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "Pet": {
+      "id": "Pet",
+      "required": [],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "url": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "name": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "PetKind",
+          "enum": [
+            "DOG",
+            "CAT",
+            "REPTILE",
+            "FISH",
+            "HORSE",
+            "OTHER"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "PetHandle": {
+      "id": "PetHandle",
+      "required": [],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "PetListing": {
+      "id": "PetListing",
+      "required": [],
+      "properties": {
+        "start": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pets": {
+          "type": "List",
+          "items": {
+            "$ref": "PetHandle"
+          }
+        }
+      }
+    },
+    "PetValues": {
+      "id": "PetValues",
+      "required": [],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "PetKind",
+          "enum": [
+            "DOG",
+            "CAT",
+            "REPTILE",
+            "FISH",
+            "HORSE",
+            "OTHER"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

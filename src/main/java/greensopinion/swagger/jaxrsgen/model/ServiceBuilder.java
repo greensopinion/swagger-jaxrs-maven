@@ -1,12 +1,16 @@
 package greensopinion.swagger.jaxrsgen.model;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
@@ -63,15 +67,11 @@ public class ServiceBuilder {
 
 	public ServiceBuilder methods(Class<?> clazz) {
 		checkNotNull(clazz, "Must provide a class");
-		checkState(description != null, "Must provide a description before providing methods");
 
 		Multimap<String, ServiceOperation> operationByPath = HashMultimap.create();
 		for (Method method : clazz.getMethods()) {
-			ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
-			if (apiOperation != null) {
-
+			if (isApi(method)) {
 				ServiceOperation operation = ServiceOperation.builder().method(method).create();
-
 				operationByPath.put(operation.getPath(), operation);
 			}
 		}
@@ -99,6 +99,22 @@ public class ServiceBuilder {
 		this.models = models;
 
 		return this;
+	}
+
+	private boolean isApi(Method method) {
+		ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
+		if (apiOperation != null) {
+			return true;
+		}
+		if (isHttpMethod(method)) {
+			return true;
+		}
+		return false;
+	}
+
+	boolean isHttpMethod(Method method) {
+		return method.getAnnotation(GET.class) != null || method.getAnnotation(PUT.class) != null
+				|| method.getAnnotation(POST.class) != null || method.getAnnotation(DELETE.class) != null;
 	}
 
 	protected JsonIntrospector getJsonIntrospector() {

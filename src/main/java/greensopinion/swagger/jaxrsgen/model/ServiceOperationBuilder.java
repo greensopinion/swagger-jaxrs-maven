@@ -62,14 +62,12 @@ public class ServiceOperationBuilder {
 	}
 
 	public ServiceOperationBuilder method(Method method) {
-		ApiOperation apiOperation = checkNotNull(method.getAnnotation(ApiOperation.class),
-				"Expected ApiOperation on %s.%s", method.getDeclaringClass().getName(), method.getName());
-		path(calculatePath(method.getDeclaringClass(), method)).httpMethod(calculateHttpMethod(method))
-				.nickname(method.getName())
-				.summary(apiOperation.value())
-				.notes(apiOperation.notes())
-				.produces(calculateProduces(method))
-				.type(ApiTypes.calculateTypeName(method.getReturnType()));
+		path(calculatePath(method.getDeclaringClass(), method));
+		httpMethod(calculateHttpMethod(method));
+		nickname(method.getName());
+		produces(calculateProduces(method));
+		type(ApiTypes.calculateTypeName(method.getReturnType()));
+
 		typeClass = method.getReturnType();
 
 		Class<?>[] parameterTypes = method.getParameterTypes();
@@ -78,9 +76,15 @@ public class ServiceOperationBuilder {
 			addParameter(parameterTypes[x], parameterAnnotations[x]);
 		}
 
-		if (apiOperation.response() != Void.class) {
-			type(ApiTypes.calculateTypeName(apiOperation.response()));
+		ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
+		if (apiOperation != null) {
+			summary(apiOperation.value());
+			notes(apiOperation.notes());
+			if (apiOperation.response() != Void.class) {
+				type(ApiTypes.calculateTypeName(apiOperation.response()));
+			}
 		}
+
 		ApiResponses apiResponses = method.getAnnotation(ApiResponses.class);
 		if (apiResponses != null && apiResponses.value().length > 0) {
 			responseMessages = Lists.newArrayList();
@@ -227,9 +231,12 @@ public class ServiceOperationBuilder {
 	}
 
 	private String calculatePath(Class<?> clazz, Method method) {
-		Api api = checkNotNull(clazz.getAnnotation(Api.class), "Class must be annotated with @Path: %s",
-				clazz.getName());
-		String apiPath = api.value();
+		Path path = clazz.getAnnotation(Path.class);
+		String apiPath = path.value();
+		Api api = clazz.getAnnotation(Api.class);
+		if (api != null) {
+			apiPath = api.value();
+		}
 		Path methodPath = method.getAnnotation(Path.class);
 		if (methodPath != null) {
 			apiPath += methodPath.value();

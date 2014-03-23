@@ -14,6 +14,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
+import java.util.Map;
+
+import javax.ws.rs.Path;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
@@ -28,6 +31,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wordnik.swagger.annotations.Api;
@@ -69,6 +73,11 @@ public class SwaggerJaxrsGeneratorMojo extends AbstractMojo {
 	 */
 	protected MavenProject mavenProject;
 
+	/**
+	 * @parameter
+	 */
+	protected boolean excludeUnannotatedApi = false;
+
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		checkState(!packageNames.isEmpty(), "Must specify package names");
@@ -76,12 +85,22 @@ public class SwaggerJaxrsGeneratorMojo extends AbstractMojo {
 		ClassLoader classLoader = getProjectClassLoader();
 
 		ApiBuilder builder = ApiRoot.builder().version(apiVersion).basePath(apiBasePath);
+		Map<String, Class<?>> fqnToClass = Maps.newTreeMap();
 		for (String packageName : packageNames) {
 			ConfigurationBuilder configurationBuilder = ConfigurationBuilder.build(packageName, classLoader);
-			for (Class<?> apiClass : new Reflections(configurationBuilder).getTypesAnnotatedWith(Api.class)) {
-				getLog().info("API class: " + apiClass.getName());
-				builder.service(apiClass);
+			Reflections reflections = new Reflections(configurationBuilder);
+			for (Class<?> apiClass : reflections.getTypesAnnotatedWith(Api.class)) {
+				fqnToClass.put(apiClass.getName(), apiClass);
 			}
+			if (!excludeUnannotatedApi) {
+				for (Class<?> apiClass : reflections.getTypesAnnotatedWith(Path.class)) {
+					fqnToClass.put(apiClass.getName(), apiClass);
+				}
+			}
+		}
+		for (Class<?> apiClass : fqnToClass.values()) {
+			getLog().info("API class: " + apiClass.getName());
+			builder.service(apiClass);
 		}
 		ApiRoot apiRoot = builder.create();
 		output(apiRoot);
