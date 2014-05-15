@@ -13,6 +13,9 @@ import greensopinion.swagger.jaxrsgen.mock.noswagger.model.PetHandle;
 import greensopinion.swagger.jaxrsgen.mock.noswagger.model.PetListing;
 import greensopinion.swagger.jaxrsgen.mock.noswagger.model.PetValues;
 
+import java.util.Collection;
+import java.util.List;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -30,6 +33,20 @@ public class PureJaxrsPetService {
 
 	@GET
 	public PetListing list(@QueryParam("start") @DefaultValue("0") int start,
+			@QueryParam("count") @DefaultValue("50") int count) {
+		return null;
+	}
+
+	@GET
+	@Path("/as-list")
+	public List<PetHandle> listAsList(@QueryParam("start") @DefaultValue("0") int start,
+			@QueryParam("count") @DefaultValue("50") int count) {
+		return null;
+	}
+
+	@GET
+	@Path("/as-collection")
+	public Collection<PetHandle> listAsCollection(@QueryParam("start") @DefaultValue("0") int start,
 			@QueryParam("count") @DefaultValue("50") int count) {
 		return null;
 	}

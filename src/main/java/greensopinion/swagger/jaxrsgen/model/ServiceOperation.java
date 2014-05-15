@@ -12,6 +12,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.common.base.Joiner;
@@ -34,6 +35,9 @@ public class ServiceOperation implements Comparable<ServiceOperation> {
 
 	private final String type;
 
+	@SerializedName("items")
+	private final Map<String, String> arrayItems;
+
 	private final String nickname;
 
 	private final List<String> produces;
@@ -45,12 +49,13 @@ public class ServiceOperation implements Comparable<ServiceOperation> {
 	private transient final Class<?> returnType;
 
 	ServiceOperation(String path, String httpMethod, String nickname, String summary, List<String> produces,
-			String notes, String type, Class<?> returnType, List<Parameter> parameters,
+			String notes, String type, Map<String, String> arrayItems, Class<?> returnType, List<Parameter> parameters,
 			List<ResponseMessage> responseMessages) {
 		this.path = checkNotNull(path, "Must provide a path");
 		this.httpMethod = checkNotNull(httpMethod, "Must provide an httpMethod");
 		this.nickname = checkNotNull(nickname, "Must provide nickname");
 		this.type = type;
+		this.arrayItems = arrayItems;
 		this.returnType = returnType;
 		this.summary = summary;
 		this.produces = produces == null ? null : ImmutableList.copyOf(produces);
@@ -98,16 +103,16 @@ public class ServiceOperation implements Comparable<ServiceOperation> {
 	public Set<Class<?>> getModelClasses() {
 		Set<Class<?>> modelClasses = Sets.newHashSet();
 		if (returnType != null && ApiTypes.isModelClass(returnType)) {
-			modelClasses.add(returnType);
+			modelClasses.add(ApiTypes.modelClass(returnType));
 		}
 		for (Parameter parameter : getParameters()) {
 			if (parameter.getTypeClass() != null && ApiTypes.isModelClass(parameter.getTypeClass())) {
-				modelClasses.add(parameter.getTypeClass());
+				modelClasses.add(ApiTypes.modelClass(parameter.getTypeClass()));
 			}
 		}
 		for (ResponseMessage responseMessage : getResponseMessages()) {
 			if (responseMessage.getTypeClass() != null && ApiTypes.isModelClass(responseMessage.getTypeClass())) {
-				modelClasses.add(responseMessage.getTypeClass());
+				modelClasses.add(ApiTypes.modelClass(responseMessage.getTypeClass()));
 			}
 		}
 		return ImmutableSet.copyOf(modelClasses);

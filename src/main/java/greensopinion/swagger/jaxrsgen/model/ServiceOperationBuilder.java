@@ -16,6 +16,7 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -29,6 +30,7 @@ import javax.ws.rs.QueryParam;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -57,6 +59,8 @@ public class ServiceOperationBuilder {
 	private Class<?> typeClass;
 
 	private List<ResponseMessage> responseMessages;
+
+	private Map<String, String> arrayItems;
 
 	ServiceOperationBuilder() {
 	}
@@ -93,6 +97,12 @@ public class ServiceOperationBuilder {
 						response.response() == Void.class ? null : ApiTypes.calculateTypeName(response.response()),
 						response.response()));
 			}
+		}
+
+		if (method.getReturnType().isArray()) {
+			arrayItems = ImmutableMap.of("$ref", ApiTypes.calculateTypeName(method.getReturnType().getComponentType()));
+		} else if (Collection.class.isAssignableFrom(method.getReturnType())) {
+			arrayItems = ImmutableMap.of("$ref", ApiTypes.calculateTypeParameterName(method.getGenericReturnType()));
 		}
 
 		return this;
@@ -137,6 +147,7 @@ public class ServiceOperationBuilder {
 				allowMultiple = apiParam.allowMultiple();
 			}
 		}
+
 		parameter(new Parameter(name, defaultValue, required, allowMultiple, type, parameterType, format, paramType,
 				allowableValues, description));
 	}
@@ -201,8 +212,8 @@ public class ServiceOperationBuilder {
 	}
 
 	public ServiceOperation create() {
-		return new ServiceOperation(path, httpMethod, nickname, summary, produces, notes, type, typeClass, parameters,
-				responseMessages);
+		return new ServiceOperation(path, httpMethod, nickname, summary, produces, notes, type, arrayItems, typeClass,
+				parameters, responseMessages);
 	}
 
 	private List<String> calculateProduces(Method method) {

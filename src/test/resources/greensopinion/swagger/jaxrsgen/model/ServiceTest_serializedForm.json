@@ -212,6 +212,19 @@
         }
       }
     },
+    "PetKind": {
+      "id": "PetKind",
+      "required": [],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "ordinal": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
     "PetListing": {
       "id": "PetListing",
       "description": "A listing of pets",
@@ -233,7 +246,7 @@
           "description": "The total number of pets in the system that correspond to the listing."
         },
         "pets": {
-          "type": "List",
+          "type": "array",
           "items": {
             "$ref": "PetHandle"
           },

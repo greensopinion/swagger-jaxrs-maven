@@ -12,6 +12,7 @@ import greensopinion.swagger.jaxrsgen.model.ApiModel.Property;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.FieldNamingStrategy;
 import com.google.gson.annotations.Expose;
@@ -33,26 +35,52 @@ public class GsonIntrospector extends JsonIntrospector {
 	private final FieldNamingStrategy fieldNamingStrategy = FieldNamingPolicy.IDENTITY;
 
 	@Override
+	public Set<Class<?>> fieldModelClasses(Class<?> modelClass) {
+		Set<Class<?>> classes = Sets.newHashSet();
+		fieldModelClasses(classes, modelClass);
+		return classes;
+	}
+
+	private void fieldModelClasses(Set<Class<?>> classes, Class<?> modelClass) {
+		for (Field field : modelFields(modelClass)) {
+			Class<?> fieldType = ApiTypes.modelClass(field.getGenericType());
+			if (ApiTypes.isModelClass(fieldType)) {
+				if (classes.add(fieldType)) {
+					fieldModelClasses(classes, fieldType);
+				}
+			}
+		}
+	}
+
+	@Override
 	public ApiModel createApiModel(Class<?> modelClass) {
 		String name = ApiTypes.calculateTypeName(modelClass);
 		String description = calculateDescription(modelClass);
 		LinkedHashMap<String, Property> properties = Maps.newLinkedHashMap();
 		List<String> required = Lists.newArrayList();
 
-		for (Class<?> c = modelClass; c != Object.class; c = c.getSuperclass()) {
-			for (Field f : c.getDeclaredFields()) {
-				if (!isExcluded(f)) {
-					String propertyName = getPropertyName(f);
-					properties.put(propertyName, createApiModelProperty(f));
-					ApiModelProperty apiModelProperty = f.getAnnotation(ApiModelProperty.class);
-					if (apiModelProperty != null && apiModelProperty.required()) {
-						required.add(propertyName);
-					}
-				}
+		for (Field f : modelFields(modelClass)) {
+			String propertyName = getPropertyName(f);
+			properties.put(propertyName, createApiModelProperty(f));
+			ApiModelProperty apiModelProperty = f.getAnnotation(ApiModelProperty.class);
+			if (apiModelProperty != null && apiModelProperty.required()) {
+				required.add(propertyName);
 			}
 		}
 
 		return new ApiModel(name, description, required, properties);
+	}
+
+	private List<Field> modelFields(Class<?> modelClass) {
+		List<Field> fields = Lists.newArrayList();
+		for (Class<?> c = modelClass; c != Object.class; c = c.getSuperclass()) {
+			for (Field f : c.getDeclaredFields()) {
+				if (!isExcluded(f)) {
+					fields.add(f);
+				}
+			}
+		}
+		return fields;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -69,7 +97,7 @@ public class GsonIntrospector extends JsonIntrospector {
 		Map<String, String> arrayItems = null;
 		if (f.getType().isArray()) {
 			arrayItems = ImmutableMap.of("$ref", ApiTypes.calculateTypeName(f.getType().getComponentType()));
-		} else if (Set.class.isAssignableFrom(f.getType()) || List.class.isAssignableFrom(f.getType())) {
+		} else if (Collection.class.isAssignableFrom(f.getType())) {
 			arrayItems = ImmutableMap.of("$ref", ApiTypes.calculateTypeParameterName(f.getGenericType()));
 		}
 		return new Property(ApiTypes.calculateTypeName(f.getType()), ApiTypes.calculateTypeFormat(f.getType()),

@@ -55,6 +55,78 @@
       ]
     },
     {
+      "path": "/pet/as-collection",
+      "operations": [
+        {
+          "method": "GET",
+          "type": "array",
+          "items": {
+            "$ref": "PetHandle"
+          },
+          "nickname": "listAsCollection",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "start",
+              "defaultValue": "0",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "count",
+              "defaultValue": "50",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/pet/as-list",
+      "operations": [
+        {
+          "method": "GET",
+          "type": "array",
+          "items": {
+            "$ref": "PetHandle"
+          },
+          "nickname": "listAsList",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "start",
+              "defaultValue": "0",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "count",
+              "defaultValue": "50",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "path": "/pet/{id}",
       "operations": [
         {
@@ -169,6 +241,19 @@
         }
       }
     },
+    "PetKind": {
+      "id": "PetKind",
+      "required": [],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "ordinal": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
     "PetListing": {
       "id": "PetListing",
       "required": [],
@@ -186,7 +271,7 @@
           "format": "int32"
         },
         "pets": {
-          "type": "List",
+          "type": "array",
           "items": {
             "$ref": "PetHandle"
           }

@@ -11,7 +11,9 @@ package greensopinion.swagger.jaxrsgen.model;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URI;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
@@ -36,6 +38,8 @@ public class ApiTypes {
 		types.put(byte.class, "string");
 		types.put(URI.class, "string");
 		types.put(Date.class, "string");
+		types.put(List.class, "array");
+		types.put(Collection.class, "array");
 		typeNameByClass = ImmutableMap.copyOf(types);
 	}
 
@@ -70,6 +74,17 @@ public class ApiTypes {
 			return "string";
 		}
 		return parameterType.getSimpleName();
+	}
+
+	public static Class<?> modelClass(Type type) {
+		if (type instanceof ParameterizedType) {
+			ParameterizedType parameterizedType = (ParameterizedType) type;
+			Type typeArgument = parameterizedType.getActualTypeArguments()[0];
+			if (typeArgument instanceof Class) {
+				return (Class<?>) typeArgument;
+			}
+		}
+		return (Class<?>) type;
 	}
 
 	public static String calculateTypeParameterName(Type type) {

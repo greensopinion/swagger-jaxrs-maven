@@ -14,6 +14,7 @@ import javax.ws.rs.PUT;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
@@ -87,6 +88,11 @@ public class ServiceBuilder {
 
 			modelClasses.addAll(serviceApi.getModelClasses());
 		}
+
+		for (Class<?> modelClass : ImmutableSet.copyOf(modelClasses)) {
+			modelClasses.addAll(getJsonIntrospector().fieldModelClasses(modelClass));
+		}
+
 		Collections.sort(serviceApis);
 		this.serviceApis = serviceApis;
 

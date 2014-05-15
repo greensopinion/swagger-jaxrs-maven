@@ -8,7 +8,11 @@
 
 package greensopinion.swagger.jaxrsgen.model;
 
+import java.util.Set;
+
 public abstract class JsonIntrospector {
+
+	public abstract Set<Class<?>> fieldModelClasses(Class<?> modelClass);
 
 	public abstract ApiModel createApiModel(Class<?> modelClass);
 
