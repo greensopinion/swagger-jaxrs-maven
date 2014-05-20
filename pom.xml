@@ -62,4 +62,14 @@
 			</plugin>
 		</plugins>
 	</build>
+	<name>Swagger JAX-RS generator</name>
+	<url>https://github.com/dgreen99/swagger-jaxrs-maven</url>
+	<description>A Maven plug-in that can generate Swagger documentation for JAX-RS web services. The goal is to produce documentation for REST web services at build-time rather than run-time so that applicaiton runtime dependencies are kept to a minimum.</description>
+	<organization>
+		<name>David Green</name>
+		<url>https://github.com/dgreen99</url>
+	</organization>
+	<scm>
+		<url>https://github.com/dgreen99/swagger-jaxrs-maven.git</url>
+	</scm>
 </project>
