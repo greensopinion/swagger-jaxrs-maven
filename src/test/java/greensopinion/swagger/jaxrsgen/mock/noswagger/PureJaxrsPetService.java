@@ -38,21 +38,21 @@ public class PureJaxrsPetService {
 	}
 
 	@GET
-	@Path("/as-list")
+	@Path("as-list")
 	public List<PetHandle> listAsList(@QueryParam("start") @DefaultValue("0") int start,
 			@QueryParam("count") @DefaultValue("50") int count) {
 		return null;
 	}
 
 	@GET
-	@Path("/as-collection")
+	@Path("as-collection")
 	public Collection<PetHandle> listAsCollection(@QueryParam("start") @DefaultValue("0") int start,
 			@QueryParam("count") @DefaultValue("50") int count) {
 		return null;
 	}
 
 	@GET
-	@Path("/{id}")
+	@Path("{id}")
 	public Pet retrievePet(@PathParam("id") long id) {
 		return null;
 	}
@@ -68,7 +68,7 @@ public class PureJaxrsPetService {
 	}
 
 	@POST
-	@Path("/{id}")
+	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public void updatePet(Pet pet, @PathParam("id") long id) {
 	}

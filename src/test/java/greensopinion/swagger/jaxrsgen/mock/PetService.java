@@ -30,7 +30,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
-@Path("/pet")
+@Path("pet")
 @Api(value = "/pet", description = "Operations about pets")
 @Produces(MediaType.APPLICATION_JSON)
 public class PetService {
@@ -43,7 +43,7 @@ public class PetService {
 	}
 
 	@GET
-	@Path("/{id}")
+	@Path("{id}")
 	@ApiOperation(value = "Retrieve pet by id", notes = "Retrieves a pet by it's id.", response = Pet.class)
 	@ApiResponses(value = { @ApiResponse(code = 404, message = "Pet not found", response = ServerError.class) })
 	public Pet retrievePet(@PathParam("id") long id) {
@@ -64,7 +64,7 @@ public class PetService {
 	}
 
 	@POST
-	@Path("/{id}")
+	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Updates a pet", notes = "Updates an existing pet with the provided details.")
 	@ApiResponses(value = { @ApiResponse(code = 404, message = "Pet not found", response = ServerError.class) })
