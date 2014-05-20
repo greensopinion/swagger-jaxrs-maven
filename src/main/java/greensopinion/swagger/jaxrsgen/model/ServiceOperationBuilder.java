@@ -250,8 +250,15 @@ public class ServiceOperationBuilder {
 		}
 		Path methodPath = method.getAnnotation(Path.class);
 		if (methodPath != null) {
-			apiPath += methodPath.value();
+			apiPath += '/' + stripLeadingSlash(methodPath.value());
 		}
 		return apiPath;
+	}
+
+	private String stripLeadingSlash(String value) {
+		if (value.startsWith("/")) {
+			return value.substring(1);
+		}
+		return value;
 	}
 }
