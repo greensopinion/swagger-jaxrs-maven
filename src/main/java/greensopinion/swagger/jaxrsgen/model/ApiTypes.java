@@ -62,7 +62,8 @@ public class ApiTypes {
 
 	public static boolean isModelClass(Class<?> clazz) {
 		return !clazz.isPrimitive() && !clazz.getPackage().getName().startsWith("java.")
-				&& !clazz.getPackage().getName().startsWith("javax.");
+				&& !clazz.getPackage().getName().startsWith("javax.")
+				&& !clazz.getPackage().getName().startsWith("com.sun.jersey.multipart");
 	}
 
 	public static String calculateTypeName(Class<?> parameterType) {
@@ -72,6 +73,9 @@ public class ApiTypes {
 		}
 		if (parameterType.isPrimitive() || parameterType.getPackage().getName().equals("java.lang")) {
 			return "string";
+		}
+		if (parameterType.getName().equals("com.sun.jersey.multipart.MultiPart")) {
+			return "File";
 		}
 		return parameterType.getSimpleName();
 	}

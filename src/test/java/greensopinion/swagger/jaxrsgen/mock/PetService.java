@@ -14,6 +14,7 @@ import greensopinion.swagger.jaxrsgen.mock.model.PetListing;
 import greensopinion.swagger.jaxrsgen.mock.model.PetValues;
 import greensopinion.swagger.jaxrsgen.mock.model.ServerError;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -25,6 +26,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.sun.jersey.multipart.MultiPart;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
@@ -69,5 +71,13 @@ public class PetService {
 	@ApiOperation(value = "Updates a pet", notes = "Updates an existing pet with the provided details.")
 	@ApiResponses(value = { @ApiResponse(code = 404, message = "Pet not found", response = ServerError.class) })
 	public void updatePet(Pet pet, @PathParam("id") long id) {
+	}
+
+	@POST
+	@Path("{id}/photo")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@ApiOperation(value = "Provides a pet photo", notes = "Updates an existing pet entry with a new photo of the pet.")
+	@ApiResponses(value = { @ApiResponse(code = 404, message = "Pet not found", response = ServerError.class) })
+	public void postConnectorRequirement(@PathParam("id") long id, MultiPart multiPart) {
 	}
 }

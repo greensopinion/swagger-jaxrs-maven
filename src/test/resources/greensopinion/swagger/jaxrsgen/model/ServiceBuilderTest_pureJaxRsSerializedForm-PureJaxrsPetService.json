@@ -191,6 +191,36 @@
           ]
         }
       ]
+    },
+    {
+      "path": "/pet/{id}/photo",
+      "operations": [
+        {
+          "method": "POST",
+          "type": "void",
+          "nickname": "postConnectorRequirement",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int64",
+              "paramType": "path"
+            },
+            {
+              "name": "body",
+              "required": true,
+              "allowMultiple": false,
+              "type": "File",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
     }
   ],
   "models": {

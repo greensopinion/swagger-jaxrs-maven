@@ -16,6 +16,7 @@ import greensopinion.swagger.jaxrsgen.mock.noswagger.model.PetValues;
 import java.util.Collection;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -26,6 +27,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
+import com.sun.jersey.multipart.MultiPart;
 
 @Path("/pet")
 @Produces(MediaType.APPLICATION_JSON)
@@ -71,5 +74,11 @@ public class PureJaxrsPetService {
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public void updatePet(Pet pet, @PathParam("id") long id) {
+	}
+
+	@POST
+	@Path("{id}/photo")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public void postConnectorRequirement(@PathParam("id") long id, MultiPart multiPart) {
 	}
 }
