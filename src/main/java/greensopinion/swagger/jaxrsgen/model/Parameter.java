@@ -8,6 +8,10 @@
 
 package greensopinion.swagger.jaxrsgen.model;
 
+import java.util.Map;
+
+import com.google.gson.annotations.SerializedName;
+
 public class Parameter {
 
 	private final String name;
@@ -20,6 +24,9 @@ public class Parameter {
 
 	private final String type;
 
+	@SerializedName("items")
+	private final Map<String, String> arrayItems;
+
 	private final String format;
 
 	private final String paramType;
@@ -31,7 +38,8 @@ public class Parameter {
 	private transient final Class<?> typeClass;
 
 	Parameter(String name, String defaultValue, boolean required, boolean allowMultiple, String type,
-			Class<?> typeClass, String format, String paramType, String allowableValues, String description) {
+			Class<?> typeClass, String format, String paramType, Map<String, String> arrayItems, String allowableValues,
+			String description) {
 		this.name = name;
 		this.defaultValue = defaultValue;
 		this.required = required;
@@ -40,6 +48,7 @@ public class Parameter {
 		this.typeClass = typeClass;
 		this.format = format;
 		this.paramType = paramType;
+		this.arrayItems = arrayItems;
 		this.allowableValues = allowableValues;
 		this.description = description;
 	}

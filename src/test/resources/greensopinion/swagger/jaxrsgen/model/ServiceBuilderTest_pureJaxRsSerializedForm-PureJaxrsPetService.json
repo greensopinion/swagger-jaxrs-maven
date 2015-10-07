@@ -198,7 +198,7 @@
         {
           "method": "POST",
           "type": "void",
-          "nickname": "postConnectorRequirement",
+          "nickname": "postPetPhoto",
           "produces": [
             "application/json"
           ],
@@ -217,6 +217,39 @@
               "allowMultiple": false,
               "type": "File",
               "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/pet/{id}/properties",
+      "operations": [
+        {
+          "method": "GET",
+          "type": "Map",
+          "nickname": "retrievePet",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int64",
+              "paramType": "path"
+            },
+            {
+              "name": "properties",
+              "required": true,
+              "allowMultiple": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "paramType": "query"
             }
           ]
         }

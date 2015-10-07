@@ -8,11 +8,8 @@
 
 package greensopinion.swagger.jaxrsgen.mock;
 
-import greensopinion.swagger.jaxrsgen.mock.model.Pet;
-import greensopinion.swagger.jaxrsgen.mock.model.PetHandle;
-import greensopinion.swagger.jaxrsgen.mock.model.PetListing;
-import greensopinion.swagger.jaxrsgen.mock.model.PetValues;
-import greensopinion.swagger.jaxrsgen.mock.model.ServerError;
+import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -32,6 +29,12 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
+import greensopinion.swagger.jaxrsgen.mock.model.Pet;
+import greensopinion.swagger.jaxrsgen.mock.model.PetHandle;
+import greensopinion.swagger.jaxrsgen.mock.model.PetListing;
+import greensopinion.swagger.jaxrsgen.mock.model.PetValues;
+import greensopinion.swagger.jaxrsgen.mock.model.ServerError;
+
 @Path("pet")
 @Api(value = "/pet", description = "Operations about pets")
 @Produces(MediaType.APPLICATION_JSON)
@@ -49,6 +52,15 @@ public class PetService {
 	@ApiOperation(value = "Retrieve pet by id", notes = "Retrieves a pet by it's id.", response = Pet.class)
 	@ApiResponses(value = { @ApiResponse(code = 404, message = "Pet not found", response = ServerError.class) })
 	public Pet retrievePet(@PathParam("id") long id) {
+		return null;
+	}
+
+	@GET
+	@Path("{id}/properties")
+	@ApiOperation(value = "Retrieve pet by id", notes = "Retrieves a pet by it's id with specified properties.", response = Pet.class)
+	@ApiResponses(value = { @ApiResponse(code = 404, message = "Pet not found", response = ServerError.class) })
+	public Map<String, Object> retrievePet(@PathParam("id") long id,
+			@QueryParam("properties") List<String> properties) {
 		return null;
 	}
 
@@ -78,6 +90,6 @@ public class PetService {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@ApiOperation(value = "Provides a pet photo", notes = "Updates an existing pet entry with a new photo of the pet.")
 	@ApiResponses(value = { @ApiResponse(code = 404, message = "Pet not found", response = ServerError.class) })
-	public void postConnectorRequirement(@PathParam("id") long id, MultiPart multiPart) {
+	public void postPetPhoto(@PathParam("id") long id, MultiPart multiPart) {
 	}
 }

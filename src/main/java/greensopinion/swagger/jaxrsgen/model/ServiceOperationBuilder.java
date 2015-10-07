@@ -12,8 +12,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.text.MessageFormat;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +30,6 @@ import javax.ws.rs.QueryParam;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -75,9 +74,10 @@ public class ServiceOperationBuilder {
 		typeClass = method.getReturnType();
 
 		Class<?>[] parameterTypes = method.getParameterTypes();
+		Type[] genericParameterTypes = method.getGenericParameterTypes();
 		Annotation[][] parameterAnnotations = method.getParameterAnnotations();
 		for (int x = 0; x < parameterTypes.length; ++x) {
-			addParameter(parameterTypes[x], parameterAnnotations[x]);
+			addParameter(parameterTypes[x], genericParameterTypes[x], parameterAnnotations[x]);
 		}
 
 		ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
@@ -99,16 +99,12 @@ public class ServiceOperationBuilder {
 			}
 		}
 
-		if (method.getReturnType().isArray()) {
-			arrayItems = ImmutableMap.of("$ref", ApiTypes.calculateTypeName(method.getReturnType().getComponentType()));
-		} else if (Collection.class.isAssignableFrom(method.getReturnType())) {
-			arrayItems = ImmutableMap.of("$ref", ApiTypes.calculateTypeParameterName(method.getGenericReturnType()));
-		}
+		arrayItems = ApiTypes.calculateArrayItems(method.getReturnType(), method.getGenericReturnType());
 
 		return this;
 	}
 
-	void addParameter(Class<?> parameterType, Annotation[] annotations) {
+	void addParameter(Class<?> parameterType, Type genericParameterType, Annotation[] annotations) {
 		QueryParam queryParam = getAnnotation(annotations, QueryParam.class);
 		PathParam pathParam = getAnnotation(annotations, PathParam.class);
 		DefaultValue defaultValueAnnotation = getAnnotation(annotations, DefaultValue.class);
@@ -122,11 +118,13 @@ public class ServiceOperationBuilder {
 		String format = ApiTypes.calculateTypeFormat(parameterType);
 		String description = null;
 		String allowableValues = null;
+		Map<String, String> arrayItems = null;
 
 		if (queryParam != null) {
 			paramType = "query";
 			name = queryParam.value();
-			allowMultiple = parameterType.isArray() || Collection.class.isAssignableFrom(parameterType);
+			arrayItems = ApiTypes.calculateArrayItems(parameterType, genericParameterType);
+			allowMultiple = arrayItems != null;
 		} else if (pathParam != null) {
 			paramType = "path";
 			name = pathParam.value();
@@ -149,7 +147,7 @@ public class ServiceOperationBuilder {
 		}
 
 		parameter(new Parameter(name, defaultValue, required, allowMultiple, type, parameterType, format, paramType,
-				allowableValues, description));
+				arrayItems, allowableValues, description));
 	}
 
 	private void parameter(Parameter parameter) {
