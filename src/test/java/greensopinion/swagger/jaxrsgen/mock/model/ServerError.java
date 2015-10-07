@@ -19,11 +19,13 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel("A representation of an error, providing an error code and message.")
 public class ServerError {
+
 	@ApiModelProperty(value = "The error code, which can be used to identify the type of error.", required = true)
 	private final String code;
 
@@ -42,6 +44,7 @@ public class ServerError {
 
 	private String computeMessage(Throwable t) {
 		Optional<Throwable> found = Iterables.tryFind(Throwables.getCausalChain(t), new Predicate<Throwable>() {
+
 			@Override
 			public boolean apply(Throwable input) {
 				return input != null && !Strings.isNullOrEmpty(input.getMessage());

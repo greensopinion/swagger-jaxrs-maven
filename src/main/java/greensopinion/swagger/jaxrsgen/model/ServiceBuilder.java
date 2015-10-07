@@ -18,7 +18,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
-import com.wordnik.swagger.annotations.ApiOperation;
+
+import io.swagger.annotations.ApiOperation;
 
 public class ServiceBuilder {
 

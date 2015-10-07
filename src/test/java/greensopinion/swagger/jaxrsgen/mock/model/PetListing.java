@@ -13,8 +13,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel("A listing of pets")
 public class PetListing {

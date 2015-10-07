@@ -8,7 +8,7 @@
 
 package greensopinion.swagger.jaxrsgen.mock.model;
 
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModelProperty;
 
 public class PetValues {
 

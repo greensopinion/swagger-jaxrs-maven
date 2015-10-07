@@ -7,7 +7,8 @@ import java.util.List;
 import javax.ws.rs.Path;
 
 import com.google.common.collect.Lists;
-import com.wordnik.swagger.annotations.Api;
+
+import io.swagger.annotations.Api;
 
 public class ApiBuilder {
 

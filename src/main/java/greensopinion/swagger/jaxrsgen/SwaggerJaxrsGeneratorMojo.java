@@ -1,9 +1,6 @@
 package greensopinion.swagger.jaxrsgen;
 
 import static com.google.common.base.Preconditions.checkState;
-import greensopinion.swagger.jaxrsgen.model.ApiBuilder;
-import greensopinion.swagger.jaxrsgen.model.ApiRoot;
-import greensopinion.swagger.jaxrsgen.model.Service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,7 +31,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.wordnik.swagger.annotations.Api;
+
+import greensopinion.swagger.jaxrsgen.model.ApiBuilder;
+import greensopinion.swagger.jaxrsgen.model.ApiRoot;
+import greensopinion.swagger.jaxrsgen.model.Service;
+import io.swagger.annotations.Api;
 
 /**
  * @goal generate
@@ -131,8 +132,8 @@ public class SwaggerJaxrsGeneratorMojo extends AbstractMojo {
 		File file = new File(outputFolder, "api-docs/index.json");
 		output(file, apiRoot);
 		for (Service service : apiRoot.getServices()) {
-			File serviceFile = new File(file.getParentFile(), CharMatcher.is('/').trimFrom(service.getPath())
-					+ "/index.json");
+			File serviceFile = new File(file.getParentFile(),
+					CharMatcher.is('/').trimFrom(service.getPath()) + "/index.json");
 			output(serviceFile, service);
 		}
 	}

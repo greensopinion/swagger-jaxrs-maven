@@ -24,10 +24,16 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.sun.jersey.multipart.MultiPart;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
+
+import greensopinion.swagger.jaxrsgen.mock.model.Pet;
+import greensopinion.swagger.jaxrsgen.mock.model.PetHandle;
+import greensopinion.swagger.jaxrsgen.mock.model.PetListing;
+import greensopinion.swagger.jaxrsgen.mock.model.PetValues;
+import greensopinion.swagger.jaxrsgen.mock.model.ServerError;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 import greensopinion.swagger.jaxrsgen.mock.model.Pet;
 import greensopinion.swagger.jaxrsgen.mock.model.PetHandle;

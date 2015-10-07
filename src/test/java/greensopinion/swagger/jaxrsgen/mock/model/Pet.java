@@ -11,7 +11,7 @@ package greensopinion.swagger.jaxrsgen.mock.model;
 import java.net.URI;
 import java.util.Date;
 
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModelProperty;
 
 public class Pet extends PetValues {
 
