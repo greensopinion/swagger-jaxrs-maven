@@ -22,6 +22,7 @@ import com.google.common.collect.Maps;
 public class ApiTypes {
 
 	private static final Map<Class<?>, String> typeNameByClass;
+
 	static {
 		Map<Class<?>, String> types = Maps.newHashMap();
 		types.put(Void.class, "void");
@@ -44,6 +45,7 @@ public class ApiTypes {
 	}
 
 	private static final Map<Class<?>, String> typeFormatByClass;
+
 	static {
 		Map<Class<?>, String> types = Maps.newHashMap();
 		types.put(Long.class, "int64");
@@ -64,6 +66,20 @@ public class ApiTypes {
 		return !clazz.isPrimitive() && !clazz.getPackage().getName().startsWith("java.")
 				&& !clazz.getPackage().getName().startsWith("javax.")
 				&& !clazz.getPackage().getName().startsWith("com.sun.jersey.multipart");
+	}
+
+	public static Map<String, String> calculateArrayItems(Class<?> parameterType, Type genericType) {
+		Map<String, String> arrayItems;
+		if (parameterType.isArray()) {
+			String key = isModelClass(parameterType.getComponentType()) ? "$ref" : "type";
+			arrayItems = ImmutableMap.of(key, ApiTypes.calculateTypeName(parameterType.getComponentType()));
+		} else if (Collection.class.isAssignableFrom(parameterType)) {
+			String key = isModelClass(typeArgument(genericType)) ? "$ref" : "type";
+			arrayItems = ImmutableMap.of(key, ApiTypes.calculateTypeParameterName(genericType));
+		} else {
+			return null;
+		}
+		return arrayItems;
 	}
 
 	public static String calculateTypeName(Class<?> parameterType) {
@@ -92,11 +108,15 @@ public class ApiTypes {
 	}
 
 	public static String calculateTypeParameterName(Type type) {
+		return calculateTypeName(typeArgument(type));
+	}
+
+	private static Class<?> typeArgument(Type type) {
 		if (type instanceof ParameterizedType) {
 			ParameterizedType parameterizedType = (ParameterizedType) type;
 			Type typeArgument = parameterizedType.getActualTypeArguments()[0];
 			if (typeArgument instanceof Class) {
-				return calculateTypeName((Class<?>) typeArgument);
+				return (Class<?>) typeArgument;
 			}
 			throw new IllegalStateException(typeArgument.getClass().getName());
 		}

@@ -8,13 +8,9 @@
 
 package greensopinion.swagger.jaxrsgen.mock.noswagger;
 
-import greensopinion.swagger.jaxrsgen.mock.noswagger.model.Pet;
-import greensopinion.swagger.jaxrsgen.mock.noswagger.model.PetHandle;
-import greensopinion.swagger.jaxrsgen.mock.noswagger.model.PetListing;
-import greensopinion.swagger.jaxrsgen.mock.noswagger.model.PetValues;
-
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -29,6 +25,11 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.sun.jersey.multipart.MultiPart;
+
+import greensopinion.swagger.jaxrsgen.mock.noswagger.model.Pet;
+import greensopinion.swagger.jaxrsgen.mock.noswagger.model.PetHandle;
+import greensopinion.swagger.jaxrsgen.mock.noswagger.model.PetListing;
+import greensopinion.swagger.jaxrsgen.mock.noswagger.model.PetValues;
 
 @Path("/pet")
 @Produces(MediaType.APPLICATION_JSON)
@@ -60,6 +61,13 @@ public class PureJaxrsPetService {
 		return null;
 	}
 
+	@GET
+	@Path("{id}/properties")
+	public Map<String, Object> retrievePet(@PathParam("id") long id,
+			@QueryParam("properties") List<String> properties) {
+		return null;
+	}
+
 	@DELETE
 	@Path("/{id}")
 	public void deletePet(@PathParam("id") long id) {
@@ -79,6 +87,7 @@ public class PureJaxrsPetService {
 	@POST
 	@Path("{id}/photo")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public void postConnectorRequirement(@PathParam("id") long id, MultiPart multiPart) {
+	public void postPetPhoto(@PathParam("id") long id, MultiPart multiPart) {
 	}
+
 }

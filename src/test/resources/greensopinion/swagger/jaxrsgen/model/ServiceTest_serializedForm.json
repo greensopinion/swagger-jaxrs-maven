@@ -163,7 +163,7 @@
           "summary": "Provides a pet photo",
           "notes": "Updates an existing pet entry with a new photo of the pet.",
           "type": "void",
-          "nickname": "postConnectorRequirement",
+          "nickname": "postPetPhoto",
           "produces": [
             "application/json"
           ],
@@ -182,6 +182,49 @@
               "allowMultiple": false,
               "type": "File",
               "paramType": "body"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 404,
+              "message": "Pet not found",
+              "responseModel": "ServerError"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/pet/{id}/properties",
+      "description": "Operations about pets",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Retrieve pet by id",
+          "notes": "Retrieves a pet by it's id with specified properties.",
+          "type": "Pet",
+          "nickname": "retrievePet",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int64",
+              "paramType": "path"
+            },
+            {
+              "name": "properties",
+              "required": true,
+              "allowMultiple": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "paramType": "query"
             }
           ],
           "responseMessages": [
