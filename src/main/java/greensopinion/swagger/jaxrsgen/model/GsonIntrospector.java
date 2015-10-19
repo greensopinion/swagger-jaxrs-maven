@@ -144,6 +144,6 @@ public class GsonIntrospector extends JsonIntrospector {
 
 	private String calculateDescription(Class<?> modelClass) {
 		io.swagger.annotations.ApiModel apiModel = modelClass.getAnnotation(io.swagger.annotations.ApiModel.class);
-		return apiModel == null ? null : Strings.emptyToNull(apiModel.value());
+		return apiModel == null ? null : Strings.emptyToNull(apiModel.description());
 	}
 }

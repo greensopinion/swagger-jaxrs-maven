@@ -23,7 +23,7 @@ import com.google.common.collect.Iterables;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel("A representation of an error, providing an error code and message.")
+@ApiModel(description = "A representation of an error, providing an error code and message.")
 public class ServerError {
 
 	@ApiModelProperty(value = "The error code, which can be used to identify the type of error.", required = true)
