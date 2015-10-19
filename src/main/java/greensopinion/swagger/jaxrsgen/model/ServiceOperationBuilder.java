@@ -135,6 +135,9 @@ public class ServiceOperationBuilder {
 		}
 		ApiParam apiParam = getAnnotation(annotations, ApiParam.class);
 		if (apiParam != null) {
+			if (apiParam.hidden()) {
+				return;
+			}
 			name = firstNonEmpty(apiParam.name(), name);
 			description = firstNonEmpty(apiParam.value(), description);
 			defaultValue = firstNonEmpty(apiParam.defaultValue(), defaultValue);
