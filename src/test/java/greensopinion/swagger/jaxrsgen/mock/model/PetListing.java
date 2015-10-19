@@ -17,7 +17,7 @@ import com.google.common.collect.ImmutableList;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel("A listing of pets")
+@ApiModel(description = "A listing of pets")
 public class PetListing {
 
 	@ApiModelProperty("The 0-based start index offset.")

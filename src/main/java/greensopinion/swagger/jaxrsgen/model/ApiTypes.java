@@ -16,8 +16,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+
+import io.swagger.annotations.ApiModel;
 
 public class ApiTypes {
 
@@ -93,7 +97,9 @@ public class ApiTypes {
 		if (parameterType.getName().equals("com.sun.jersey.multipart.MultiPart")) {
 			return "File";
 		}
-		return parameterType.getSimpleName();
+		ApiModel apiModel = parameterType.getAnnotation(ApiModel.class);
+		typeName = apiModel == null ? null : Strings.emptyToNull(apiModel.value());
+		return Objects.firstNonNull(typeName, parameterType.getSimpleName());
 	}
 
 	public static Class<?> modelClass(Type type) {
