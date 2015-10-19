@@ -26,20 +26,20 @@ import javax.ws.rs.core.MediaType;
 import com.sun.jersey.multipart.MultiPart;
 
 import greensopinion.swagger.jaxrsgen.mock.model.Pet;
+import greensopinion.swagger.jaxrsgen.mock.model.Pet;
+import greensopinion.swagger.jaxrsgen.mock.model.PetHandle;
 import greensopinion.swagger.jaxrsgen.mock.model.PetHandle;
 import greensopinion.swagger.jaxrsgen.mock.model.PetListing;
+import greensopinion.swagger.jaxrsgen.mock.model.PetListing;
 import greensopinion.swagger.jaxrsgen.mock.model.PetValues;
+import greensopinion.swagger.jaxrsgen.mock.model.PetValues;
+import greensopinion.swagger.jaxrsgen.mock.model.ServerError;
 import greensopinion.swagger.jaxrsgen.mock.model.ServerError;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-
-import greensopinion.swagger.jaxrsgen.mock.model.Pet;
-import greensopinion.swagger.jaxrsgen.mock.model.PetHandle;
-import greensopinion.swagger.jaxrsgen.mock.model.PetListing;
-import greensopinion.swagger.jaxrsgen.mock.model.PetValues;
-import greensopinion.swagger.jaxrsgen.mock.model.ServerError;
 
 @Path("pet")
 @Api(value = "/pet", description = "Operations about pets")
@@ -49,7 +49,8 @@ public class PetService {
 	@GET
 	@ApiOperation(value = "List all pets", notes = "List all pets. Results are paginated.", response = PetListing.class)
 	public PetListing list(@QueryParam("start") @DefaultValue("0") int start,
-			@QueryParam("count") @DefaultValue("50") int count) {
+			@QueryParam("count") @DefaultValue("50") int count,
+			@QueryParam("superSecretParam") @ApiParam(hidden = true) String superSecretParam) {
 		return null;
 	}
 

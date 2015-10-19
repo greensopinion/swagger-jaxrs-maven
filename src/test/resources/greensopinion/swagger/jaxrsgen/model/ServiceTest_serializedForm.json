@@ -379,10 +379,6 @@
         "message": {
           "type": "string",
           "description": "The message describing the error."
-        },
-        "detail": {
-          "type": "string",
-          "description": "Detail of the error which can be used for diagnostic purposes."
         }
       }
     }

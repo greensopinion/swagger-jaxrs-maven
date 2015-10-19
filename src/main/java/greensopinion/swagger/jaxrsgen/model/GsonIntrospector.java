@@ -60,8 +60,12 @@ public class GsonIntrospector extends JsonIntrospector {
 		List<String> required = Lists.newArrayList();
 
 		for (Field f : modelFields(modelClass)) {
+			Property property = createApiModelProperty(f);
+			if (property == null) {
+				continue;
+			}
 			String propertyName = getPropertyName(f);
-			properties.put(propertyName, createApiModelProperty(f));
+			properties.put(propertyName, property);
 			ApiModelProperty apiModelProperty = f.getAnnotation(ApiModelProperty.class);
 			if (apiModelProperty != null && apiModelProperty.required()) {
 				required.add(propertyName);
@@ -88,6 +92,9 @@ public class GsonIntrospector extends JsonIntrospector {
 		ApiModelProperty apiModelProperty = f.getAnnotation(ApiModelProperty.class);
 		String description = null;
 		if (apiModelProperty != null) {
+			if (apiModelProperty.hidden()) {
+				return null;
+			}
 			description = apiModelProperty.value();
 		}
 		List<String> enumeratedValues = null;

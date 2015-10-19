@@ -29,10 +29,10 @@ public class ServerError {
 	@ApiModelProperty(value = "The error code, which can be used to identify the type of error.", required = true)
 	private final String code;
 
-	@ApiModelProperty(value = "The message describing the error.")
+	@ApiModelProperty("The message describing the error.")
 	private final String message;
 
-	@ApiModelProperty(value = "Detail of the error which can be used for diagnostic purposes.")
+	@ApiModelProperty(hidden = true)
 	private final String detail;
 
 	public ServerError(Throwable throwable) {
