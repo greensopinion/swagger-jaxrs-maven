@@ -47,13 +47,14 @@ bc.
 		
 Add this plug-in to your pom.xml's build:
 
-bc. <build>
+bc. 
+	<build>
 		<finalName>web</finalName>
 		<plugins>
 			<plugin>
 				<groupId>greensopinion.swagger</groupId>
 				<artifactId>jaxrs-gen</artifactId>
-				<version>1.0-SNAPSHOT</version>
+				<version>1.2.0</version>
 				<configuration>
 					<apiVersion>1.0</apiVersion>
 					<apiBasePath>/api/latest</apiBasePath>
