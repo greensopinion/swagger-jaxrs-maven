@@ -1,0 +1,27 @@
+/*******************************************************************************
+ * Copyright (c) 2015 Tasktop Technologies.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Tasktop EULA
+ * which accompanies this distribution, and is available at
+ * http://tasktop.com/legal
+ *******************************************************************************/
+
+package greensopinion.swagger.jaxrsgen.mock;
+
+import java.util.function.Supplier;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+
+@Path("/java8")
+public class ServiceWithLambda {
+
+	@GET
+	public String get() {
+		return produce(() -> "test");
+	}
+
+	private String produce(Supplier<String> supplier) {
+		return supplier.get();
+	}
+}

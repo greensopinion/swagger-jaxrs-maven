@@ -11,7 +11,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.Path;
 
@@ -21,14 +20,11 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
-import org.reflections.Reflections;
-import org.reflections.util.ConfigurationBuilder;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -86,20 +82,15 @@ public class SwaggerJaxrsGeneratorMojo extends AbstractMojo {
 		ClassLoader classLoader = getProjectClassLoader();
 
 		ApiBuilder builder = ApiRoot.builder().version(apiVersion).basePath(apiBasePath);
-		Map<String, Class<?>> fqnToClass = Maps.newTreeMap();
+
+		ClassCollector collector = new ClassCollector();
 		for (String packageName : packageNames) {
-			ConfigurationBuilder configurationBuilder = ConfigurationBuilder.build(packageName, classLoader);
-			Reflections reflections = new Reflections(configurationBuilder);
-			for (Class<?> apiClass : reflections.getTypesAnnotatedWith(Api.class)) {
-				fqnToClass.put(apiClass.getName(), apiClass);
-			}
+			collector.addClasses(classLoader, packageName, Api.class);
 			if (!excludeUnannotatedApi) {
-				for (Class<?> apiClass : reflections.getTypesAnnotatedWith(Path.class)) {
-					fqnToClass.put(apiClass.getName(), apiClass);
-				}
+				collector.addClasses(classLoader, packageName, Path.class);
 			}
 		}
-		for (Class<?> apiClass : fqnToClass.values()) {
+		for (Class<?> apiClass : collector.getClasses()) {
 			getLog().info("API class: " + apiClass.getName());
 			builder.service(apiClass);
 		}

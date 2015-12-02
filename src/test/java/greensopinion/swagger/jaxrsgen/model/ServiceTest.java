@@ -10,11 +10,12 @@ package greensopinion.swagger.jaxrsgen.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import greensopinion.swagger.jaxrsgen.mock.PetService;
 
 import org.junit.Test;
 
 import com.google.gson.GsonBuilder;
+
+import greensopinion.swagger.jaxrsgen.mock.PetService;
 
 public class ServiceTest {
 
@@ -32,5 +33,4 @@ public class ServiceTest {
 		String json = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create().toJson(service);
 		assertEquals(TestResources.read(ServiceTest.class, "serializedForm.json"), json);
 	}
-
 }

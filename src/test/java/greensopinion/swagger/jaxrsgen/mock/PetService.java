@@ -26,14 +26,9 @@ import javax.ws.rs.core.MediaType;
 import com.sun.jersey.multipart.MultiPart;
 
 import greensopinion.swagger.jaxrsgen.mock.model.Pet;
-import greensopinion.swagger.jaxrsgen.mock.model.Pet;
-import greensopinion.swagger.jaxrsgen.mock.model.PetHandle;
 import greensopinion.swagger.jaxrsgen.mock.model.PetHandle;
 import greensopinion.swagger.jaxrsgen.mock.model.PetListing;
-import greensopinion.swagger.jaxrsgen.mock.model.PetListing;
 import greensopinion.swagger.jaxrsgen.mock.model.PetValues;
-import greensopinion.swagger.jaxrsgen.mock.model.PetValues;
-import greensopinion.swagger.jaxrsgen.mock.model.ServerError;
 import greensopinion.swagger.jaxrsgen.mock.model.ServerError;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
