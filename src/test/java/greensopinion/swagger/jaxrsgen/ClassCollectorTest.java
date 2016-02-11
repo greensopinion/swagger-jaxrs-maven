@@ -17,6 +17,7 @@ import org.junit.Test;
 import com.google.common.collect.ImmutableSet;
 
 import greensopinion.swagger.jaxrsgen.mock.ServiceWithLambda;
+import greensopinion.swagger.jaxrsgen.mock.ServiceWithResponseReturnType;
 import io.swagger.annotations.Api;
 
 public class ClassCollectorTest {
@@ -28,9 +29,8 @@ public class ClassCollectorTest {
 		collector.addClasses(ClassCollectorTest.class.getClassLoader(), "greensopinion.swagger.jaxrsgen", Api.class);
 		collector.addClasses(ClassCollectorTest.class.getClassLoader(), "greensopinion.swagger.jaxrsgen", Path.class);
 
-		assertEquals(
-				ImmutableSet.of(greensopinion.swagger.jaxrsgen.mock.noswagger.PureJaxrsPetService.class,
-						greensopinion.swagger.jaxrsgen.mock.PetService.class, ServiceWithLambda.class),
-				collector.getClasses());
+		assertEquals(ImmutableSet.of(greensopinion.swagger.jaxrsgen.mock.noswagger.PureJaxrsPetService.class,
+				greensopinion.swagger.jaxrsgen.mock.PetService.class, ServiceWithLambda.class,
+				ServiceWithResponseReturnType.class), collector.getClasses());
 	}
 }

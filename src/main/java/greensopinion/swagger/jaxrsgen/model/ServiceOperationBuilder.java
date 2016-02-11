@@ -87,6 +87,7 @@ public class ServiceOperationBuilder {
 			notes(apiOperation.notes());
 			if (apiOperation.response() != Void.class) {
 				type(ApiTypes.calculateTypeName(apiOperation.response()));
+				typeClass = apiOperation.response();
 			}
 		}
 
