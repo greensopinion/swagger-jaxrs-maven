@@ -1,16 +1,22 @@
 /*******************************************************************************
  * Copyright (c) 2014 Tasktop Technologies.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Tasktop EULA
- * which accompanies this distribution, and is available at
- * http://tasktop.com/legal
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *******************************************************************************/
 
 package greensopinion.swagger.jaxrsgen.model;
 
 import static org.junit.Assert.assertEquals;
-import greensopinion.swagger.jaxrsgen.mock.PetService;
-import greensopinion.swagger.jaxrsgen.mock.noswagger.PureJaxrsPetService;
 
 import java.util.List;
 
@@ -18,6 +24,9 @@ import org.junit.Test;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import greensopinion.swagger.jaxrsgen.mock.PetService;
+import greensopinion.swagger.jaxrsgen.mock.noswagger.PureJaxrsPetService;
 
 public class ServiceBuilderTest {
 
@@ -49,9 +58,8 @@ public class ServiceBuilderTest {
 		List<Service> services = apiRoot.getServices();
 		assertEquals(1, services.size());
 		String json2 = gson.toJson(services.get(0));
-		assertEquals(
-				TestResources.read(ServiceBuilderTest.class,
-						"pureJaxRsSerializedForm-" + PureJaxrsPetService.class.getSimpleName() + ".json"), json2);
+		assertEquals(TestResources.read(ServiceBuilderTest.class,
+				"pureJaxRsSerializedForm-" + PureJaxrsPetService.class.getSimpleName() + ".json"), json2);
 
 	}
 }
