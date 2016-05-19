@@ -2,19 +2,10 @@ h2. Overview
 
 This project provides a Maven plug-in that can generate "Swagger documentation":http://swagger.io/ for JAX-RS web services.  The goal is to produce documentation for REST web services at build-time rather than run-time so that applicaiton runtime dependencies are kept to a minimum.
 
-h3. Status
-
-This project is in it's infancy and has not yet had wide adoption.  There is a lot to do before this project is ready for prime-time.
-
 h4. What it does
 
 # Generates Swagger documentation as .json files at build-time
 # Handles a specific style of JAX-RS service authoring; for example it expects annotations to be fairly complete
-
-h4. Missing features
-
-# Handling for a wide set of data types (e.g. date, ...)
-# Handling for a variety of serialization frameworks (e.g. Jackson, JAXB, ...) 
 
 h3. Motivation
 
