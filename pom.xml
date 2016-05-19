@@ -7,6 +7,33 @@
   <packaging>maven-plugin</packaging>
   <version>1.2-SNAPSHOT</version>
 
+  <name>Swagger JAX-RS Generator</name>
+  <description>A Maven plug-in that can generate Swagger documentation for JAX-RS web services. Produces documentation for REST web services at build-time rather than run-time so that application runtime dependencies are kept to a minimum.</description>
+  <url>https://github.com/greensopinion/swagger-jaxrs-maven</url>
+  <organization>
+    <name>David Green</name>
+    <url>https://github.com/greensopinion</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>Apache License 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>David Green</name>
+      <email>greensopinion@gmail.com</email>
+      <organization>David Green</organization>
+      <organizationUrl>http://greensopinion.com</organizationUrl>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:https://github.com/greensopinion/swagger-jaxrs-maven.git</connection>
+    <url>https://github.com/greensopinion/swagger-jaxrs-maven.git</url>
+  </scm>
+  
+  
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
@@ -81,20 +108,4 @@
       </plugin>
     </plugins>
   </build>
-  <name>Swagger JAX-RS generator</name>
-  <url>https://github.com/greensopinion/swagger-jaxrs-maven</url>
-  <description>A Maven plug-in that can generate Swagger documentation for JAX-RS web services. The goal is to produce documentation for REST web services at build-time rather than run-time so that application runtime dependencies are kept to a minimum.</description>
-  <organization>
-    <name>David Green</name>
-    <url>https://github.com/greensopinion</url>
-  </organization>
-  <licenses>
-    <license>
-      <name>Apache License 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
-    </license>
-  </licenses>
-  <scm>
-    <url>https://github.com/greensopinion/swagger-jaxrs-maven.git</url>
-  </scm>
 </project>
