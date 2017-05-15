@@ -25,10 +25,6 @@ import org.junit.Test;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gson.GsonBuilder;
-import com.greensopinion.swagger.jaxrsgen.model.ApiModel;
-import com.greensopinion.swagger.jaxrsgen.model.ApiRoot;
-import com.greensopinion.swagger.jaxrsgen.model.Service;
-import com.greensopinion.swagger.jaxrsgen.model.ServiceApi;
 
 public class ApiRootTest {
 

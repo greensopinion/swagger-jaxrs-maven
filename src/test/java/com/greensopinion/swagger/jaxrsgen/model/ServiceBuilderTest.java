@@ -26,9 +26,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.greensopinion.swagger.jaxrsgen.mock.PetService;
 import com.greensopinion.swagger.jaxrsgen.mock.noswagger.PureJaxrsPetService;
-import com.greensopinion.swagger.jaxrsgen.model.ApiBuilder;
-import com.greensopinion.swagger.jaxrsgen.model.ApiRoot;
-import com.greensopinion.swagger.jaxrsgen.model.Service;
 
 public class ServiceBuilderTest {
 

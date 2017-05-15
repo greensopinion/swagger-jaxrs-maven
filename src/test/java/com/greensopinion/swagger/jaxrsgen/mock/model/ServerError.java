@@ -13,7 +13,8 @@ package com.greensopinion.swagger.jaxrsgen.mock.model;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.base.Objects;
+import java.text.MessageFormat;
+
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
@@ -70,6 +71,6 @@ public class ServerError {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(ServerError.class).add("code", code).add("message", message).toString();
+		return MessageFormat.format("code: {0} message: {1}", code, message);
 	}
 }

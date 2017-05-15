@@ -24,11 +24,11 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gson.annotations.SerializedName;
+import com.greensopinion.swagger.jaxrsgen.MoreObjects;
 
 public class ServiceOperation implements Comparable<ServiceOperation> {
 
@@ -136,8 +136,8 @@ public class ServiceOperation implements Comparable<ServiceOperation> {
 	}
 
 	private String compareString() {
-		return Joiner.on(";;").join(httpMethod, path, Objects.firstNonNull(nickname, ""),
-				Objects.firstNonNull(summary, ""));
+		return Joiner.on(";;").join(httpMethod, path, MoreObjects.firstNonNull(nickname, ""),
+				MoreObjects.firstNonNull(summary, ""));
 	}
 
 }

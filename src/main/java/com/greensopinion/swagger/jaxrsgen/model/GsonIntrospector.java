@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.base.Strings;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -26,6 +25,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.FieldNamingStrategy;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.greensopinion.swagger.jaxrsgen.SafeExecutor;
 import com.greensopinion.swagger.jaxrsgen.model.ApiModel.Property;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -114,13 +114,10 @@ public class GsonIntrospector extends JsonIntrospector {
 	private <T extends Enum<T>> List<String> calculateEnumValues(Class<T> enumClass) {
 		List<String> enumeratedValues = Lists.newArrayList();
 		for (T enumConstant : enumClass.getEnumConstants()) {
-			String name = enumConstant.name();
-			SerializedName annotation;
-			try {
-				annotation = enumClass.getField(name).getAnnotation(SerializedName.class);
-			} catch (Exception e) {
-				throw Throwables.propagate(e);
-			}
+			String fieldName = enumConstant.name();
+			String name = fieldName;
+			SerializedName annotation = SafeExecutor
+					.call(() -> enumClass.getField(fieldName).getAnnotation(SerializedName.class));
 			if (annotation != null) {
 				name = annotation.value();
 			}

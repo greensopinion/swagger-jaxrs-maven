@@ -18,11 +18,9 @@ package com.greensopinion.swagger.jaxrsgen;
 import static com.google.common.base.Preconditions.checkState;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.List;
@@ -30,7 +28,6 @@ import java.util.List;
 import javax.ws.rs.Path;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -38,7 +35,6 @@ import org.apache.maven.project.MavenProject;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Charsets;
-import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -115,7 +111,7 @@ public class SwaggerJaxrsGeneratorMojo extends AbstractMojo {
 
 	private ClassLoader getProjectClassLoader() {
 		List<URL> urls = Lists.newArrayList();
-		try {
+		SafeExecutor.run(() -> {
 			for (Artifact artifact : mavenProject.getArtifacts()) {
 				if (artifact.getArtifactId().contains("swagger")) {
 					continue;
@@ -126,11 +122,7 @@ public class SwaggerJaxrsGeneratorMojo extends AbstractMojo {
 			for (String classpathElement : mavenProject.getRuntimeClasspathElements()) {
 				urls.add(new File(classpathElement).toURI().toURL());
 			}
-		} catch (MalformedURLException e) {
-			throw Throwables.propagate(e);
-		} catch (DependencyResolutionRequiredException e) {
-			throw Throwables.propagate(e);
-		}
+		});
 		return new URLClassLoader(urls.toArray(new URL[urls.size()]), SwaggerJaxrsGeneratorMojo.class.getClassLoader());
 	}
 
@@ -150,19 +142,9 @@ public class SwaggerJaxrsGeneratorMojo extends AbstractMojo {
 				throw new MojoExecutionException("Cannot create folder " + file.getParentFile());
 			}
 		}
-		OutputStreamWriter writer;
-		try {
-			writer = new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8);
-		} catch (FileNotFoundException e) {
-			throw new MojoExecutionException("Cannot create file: " + file, e);
-		}
-		try {
-			try {
-				Gson gson = createGson();
-				gson.toJson(model, writer);
-			} finally {
-				writer.close();
-			}
+		try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8)) {
+			Gson gson = createGson();
+			gson.toJson(model, writer);
 		} catch (IOException e) {
 			throw new MojoExecutionException("Cannot write file: " + file, e);
 		}

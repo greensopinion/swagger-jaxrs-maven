@@ -16,10 +16,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.greensopinion.swagger.jaxrsgen.MoreObjects;
 
 import io.swagger.annotations.ApiModel;
 
@@ -99,7 +99,7 @@ public class ApiTypes {
 		}
 		ApiModel apiModel = parameterType.getAnnotation(ApiModel.class);
 		typeName = apiModel == null ? null : Strings.emptyToNull(apiModel.value());
-		return Objects.firstNonNull(typeName, parameterType.getSimpleName());
+		return MoreObjects.firstNonNull(typeName, parameterType.getSimpleName());
 	}
 
 	public static Class<?> modelClass(Type type) {

@@ -23,8 +23,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.greensopinion.swagger.jaxrsgen.model.ApiTypes;
-
 import io.swagger.annotations.ApiModel;
 
 public class ApiTypesTest {

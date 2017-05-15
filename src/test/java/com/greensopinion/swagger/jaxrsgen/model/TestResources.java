@@ -23,23 +23,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import com.google.common.base.Charsets;
-import com.google.common.base.Throwables;
 import com.google.common.io.CharStreams;
 
 public class TestResources {
 
 	public static String read(Class<?> clazz, String resource) {
 		String filename = clazz.getSimpleName() + "_" + resource;
-		try {
-			InputStream stream = clazz.getResourceAsStream(filename);
+		try (InputStream stream = clazz.getResourceAsStream(filename)) {
 			checkNotNull(stream, "Cannot load resource: %s", filename);
-			try {
-				return CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
-			} finally {
-				stream.close();
-			}
+			return CharStreams.toString(new InputStreamReader(stream, Charsets.UTF_8));
 		} catch (IOException e) {
-			throw Throwables.propagate(e);
+			throw new RuntimeException(e);
 		}
 	}
 }
