@@ -1,0 +1,86 @@
+{
+  "apiVersion": "1.0.1",
+  "swaggerVersion": "1.2",
+  "basePath": "/api/latest",
+  "resourcePath": "/apath",
+  "apis": [
+    {
+      "path": "/bodyWithGenericTypeParameter",
+      "operations": [
+        {
+          "method": "POST",
+          "type": "void",
+          "nickname": "get",
+          "produces": [],
+          "parameters": [
+            {
+              "name": "body",
+              "required": true,
+              "allowMultiple": true,
+              "type": "array",
+              "items": {
+                "$ref": "Pet"
+              },
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "Pet": {
+      "id": "Pet",
+      "required": [
+        "id",
+        "name",
+        "kind"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "url": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the pet"
+        },
+        "kind": {
+          "type": "PetKind",
+          "description": "The kind of pet",
+          "enum": [
+            "DOG",
+            "CAT",
+            "REPTILE",
+            "FISH",
+            "HORSE",
+            "OTHER"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "PetKind": {
+      "id": "PetKind",
+      "required": [],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "ordinal": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    }
+  }
+}

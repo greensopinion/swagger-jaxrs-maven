@@ -15,8 +15,8 @@ import org.junit.Test;
 
 import com.google.gson.GsonBuilder;
 import com.greensopinion.swagger.jaxrsgen.mock.PetService;
+import com.greensopinion.swagger.jaxrsgen.mock.ServiceWithBodyHavingGenericTypeParameter;
 import com.greensopinion.swagger.jaxrsgen.mock.ServiceWithResponseReturnType;
-import com.greensopinion.swagger.jaxrsgen.model.Service;
 
 public class ServiceTest {
 
@@ -47,5 +47,19 @@ public class ServiceTest {
 
 		String json = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create().toJson(service);
 		assertEquals(TestResources.read(ServiceTest.class, "serviceWithResponseReturnType.json"), json);
+	}
+
+	@Test
+	public void serviceWithBodyHavingGenericTypeParameter() {
+		Service service = Service.builder()
+				.basePath("/api/latest")
+				.path("/apath")
+				.version("1.0.1")
+				.methods(ServiceWithBodyHavingGenericTypeParameter.class)
+				.create();
+		assertNotNull(service);
+
+		String json = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create().toJson(service);
+		assertEquals(TestResources.read(ServiceTest.class, "serviceWithBodyHavingGenericTypeParameter.json"), json);
 	}
 }

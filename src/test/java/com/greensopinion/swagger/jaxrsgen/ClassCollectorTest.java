@@ -15,9 +15,11 @@ import javax.ws.rs.Path;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableList;
-import com.greensopinion.swagger.jaxrsgen.ClassCollector;
+import com.greensopinion.swagger.jaxrsgen.mock.PetService;
+import com.greensopinion.swagger.jaxrsgen.mock.ServiceWithBodyHavingGenericTypeParameter;
 import com.greensopinion.swagger.jaxrsgen.mock.ServiceWithLambda;
 import com.greensopinion.swagger.jaxrsgen.mock.ServiceWithResponseReturnType;
+import com.greensopinion.swagger.jaxrsgen.mock.noswagger.PureJaxrsPetService;
 
 import io.swagger.annotations.Api;
 
@@ -27,13 +29,14 @@ public class ClassCollectorTest {
 
 	@Test
 	public void findsClasses() {
-		collector.addClasses(ClassCollectorTest.class.getClassLoader(), "com.greensopinion.swagger.jaxrsgen", Api.class);
-		collector.addClasses(ClassCollectorTest.class.getClassLoader(), "com.greensopinion.swagger.jaxrsgen", Path.class);
+		collector.addClasses(ClassCollectorTest.class.getClassLoader(), "com.greensopinion.swagger.jaxrsgen",
+				Api.class);
+		collector.addClasses(ClassCollectorTest.class.getClassLoader(), "com.greensopinion.swagger.jaxrsgen",
+				Path.class);
 
 		assertEquals(
-				ImmutableList.of(com.greensopinion.swagger.jaxrsgen.mock.PetService.class, ServiceWithLambda.class,
-						ServiceWithResponseReturnType.class,
-						com.greensopinion.swagger.jaxrsgen.mock.noswagger.PureJaxrsPetService.class),
+				ImmutableList.of(PetService.class, ServiceWithBodyHavingGenericTypeParameter.class,
+						ServiceWithLambda.class, ServiceWithResponseReturnType.class, PureJaxrsPetService.class),
 				collector.getClasses());
 	}
 }

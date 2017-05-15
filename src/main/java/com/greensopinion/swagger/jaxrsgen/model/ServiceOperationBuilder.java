@@ -133,7 +133,10 @@ public class ServiceOperationBuilder {
 		} else {
 			paramType = "body";
 			name = "body";
+			arrayItems = ApiTypes.calculateArrayItems(parameterType, genericParameterType);
+			allowMultiple = arrayItems != null;
 		}
+		Class<?> modelType = ApiTypes.modelClass(genericParameterType);
 		ApiParam apiParam = getAnnotation(annotations, ApiParam.class);
 		if (apiParam != null) {
 			if (apiParam.hidden()) {
@@ -151,7 +154,7 @@ public class ServiceOperationBuilder {
 			}
 		}
 
-		parameter(new Parameter(name, defaultValue, required, allowMultiple, type, parameterType, format, paramType,
+		parameter(new Parameter(name, defaultValue, required, allowMultiple, type, modelType, format, paramType,
 				arrayItems, allowableValues, description));
 	}
 
