@@ -31,6 +31,7 @@
   <scm>
     <connection>scm:git:https://github.com/greensopinion/swagger-jaxrs-maven.git</connection>
     <url>https://github.com/greensopinion/swagger-jaxrs-maven.git</url>
+    <developerConnection>scm:git:git@github.com:greensopinion/swagger-jaxrs-maven.git</developerConnection>
   </scm>
 
   <distributionManagement>
