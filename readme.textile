@@ -185,8 +185,7 @@ bc..
   "swaggerVersion": "1.2",
   "apis": [
     {
-      "path": "/page",
-      "description": "Operations about wiki pages"
+      "path": "/pets"
     }
   ]
 }

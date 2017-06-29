@@ -1,0 +1,68 @@
+{
+  "apiVersion": "1.0.0",
+  "swaggerVersion": "1.2",
+  "basePath": "/api/latest",
+  "resourcePath": "/pets",
+  "apis": [
+    {
+      "path": "/pets",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "List all pets",
+          "notes": "List all pets. Results are paginated.",
+          "type": "PetListing",
+          "nickname": "listPets",
+          "produces": []
+        }
+      ]
+    }
+  ],
+  "models": {
+    "PetHandle": {
+      "id": "PetHandle",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the pet"
+        }
+      }
+    },
+    "PetListing": {
+      "id": "PetListing",
+      "description": "A listing of pets",
+      "required": [],
+      "properties": {
+        "start": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The 0-based start index offset."
+        },
+        "count": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of pets requested.  May differ from the actual number of pets in the listing."
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The total number of pets in the system that correspond to the listing."
+        },
+        "pets": {
+          "type": "array",
+          "items": {
+            "$ref": "PetHandle"
+          },
+          "description": "The list of pet handles."
+        }
+      }
+    }
+  }
+}
