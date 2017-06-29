@@ -481,6 +481,17 @@ bc..
   }
 }
 
+h2. Building
+
+
+Build using Maven as follows:
+
+`mvn clean verify`
+
+Build status on "Travis CI":https://travis-ci.org/greensopinion/swagger-jaxrs-maven: !https://travis-ci.org/greensopinion/swagger-jaxrs-maven.svg?branch=master!
+
+
+
 h2. License
 
 Licensed under the Apache License, Version 2.0 (the "License");
