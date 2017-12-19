@@ -4,7 +4,7 @@
 	<groupId>com.greensopinion.swagger</groupId>
 	<artifactId>jaxrs-gen</artifactId>
 	<packaging>maven-plugin</packaging>
-	<version>1.3.4</version>
+	<version>1.3.5-SNAPSHOT</version>
 
 	<name>Swagger JAX-RS Generator</name>
 	<description>A Maven plug-in that can generate Swagger documentation for JAX-RS web services. Produces documentation for REST web services at build-time rather than run-time so that application runtime dependencies are kept to a minimum.</description>
@@ -31,7 +31,7 @@
 		<connection>scm:git:https://github.com/greensopinion/swagger-jaxrs-maven.git</connection>
 		<url>https://github.com/greensopinion/swagger-jaxrs-maven.git</url>
 		<developerConnection>scm:git:git@github.com:greensopinion/swagger-jaxrs-maven.git</developerConnection>
-		<tag>jaxrs-gen-1.3.4</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<distributionManagement>
