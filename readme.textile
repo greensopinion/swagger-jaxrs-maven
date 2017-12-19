@@ -44,7 +44,7 @@ bc. <build>
 			<plugin>
 				<groupId>com.greensopinion.swagger</groupId>
 				<artifactId>jaxrs-gen</artifactId>
-				<version>1.3.4</version>
+				<version>1.3.5</version>
 				<configuration>
 					<apiVersion>1.0</apiVersion>
 					<apiBasePath>/api/latest</apiBasePath>
@@ -490,7 +490,13 @@ Build using Maven as follows:
 
 Build status on "Travis CI":https://travis-ci.org/greensopinion/swagger-jaxrs-maven: !https://travis-ci.org/greensopinion/swagger-jaxrs-maven.svg?branch=master!
 
+h3. Building for Release
 
+Build using Maven as follows:
+
+pre. 
+mvn -Possrh -Darguments=-Dgpg.passphrase=... release:prepare
+mvn -Possrh -Darguments=-Dgpg.passphrase=... release:perform
 
 h2. License
 
