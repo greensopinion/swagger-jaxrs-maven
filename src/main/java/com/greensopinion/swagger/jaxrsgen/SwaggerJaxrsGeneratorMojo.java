@@ -31,6 +31,10 @@ import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 
 import com.google.common.base.CharMatcher;
@@ -44,46 +48,25 @@ import com.greensopinion.swagger.jaxrsgen.model.Service;
 
 import io.swagger.annotations.Api;
 
-/**
- * @goal generate
- * @phase compile
- * @requiresDependencyResolution compile+runtime
- */
+@Mojo(name = "generate", defaultPhase = LifecyclePhase.COMPILE, requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME, threadSafe = true)
 public class SwaggerJaxrsGeneratorMojo extends AbstractMojo {
 
-	/**
-	 * @parameter
-	 */
+	@Parameter
 	protected List<String> packageNames = Lists.newArrayList();
 
-	/**
-	 * Output folder.
-	 * 
-	 * @parameter expression="${project.build.directory}/generated-swagger-docs"
-	 * @required
-	 */
+	@Parameter(defaultValue = "${project.build.directory}/generated-swagger-docs")
 	protected File outputFolder;
 
-	/**
-	 * @parameter
-	 */
+	@Parameter
 	protected String apiVersion = "0.1";
 
-	/**
-	 * @parameter
-	 */
+	@Parameter
 	protected String apiBasePath = "/api/latest";
 
-	/**
-	 * @parameter property="project"
-	 * @required
-	 * @readonly
-	 */
+	@Parameter(property = "project", readonly = true)
 	protected MavenProject mavenProject;
 
-	/**
-	 * @parameter
-	 */
+	@Parameter
 	protected boolean excludeUnannotatedApi = false;
 
 	@Override

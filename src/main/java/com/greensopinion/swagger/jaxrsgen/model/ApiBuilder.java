@@ -33,6 +33,7 @@ public class ApiBuilder {
 
 	private String apiBasePath;
 
+	@SuppressWarnings("deprecation")
 	public ApiBuilder service(Class<?> clazz) {
 		checkNotNull(clazz, "Must provide a service class");
 
